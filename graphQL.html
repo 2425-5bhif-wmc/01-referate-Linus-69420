@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<meta name="author" content="Linus Nestler">
+<meta name="author" content=":icons:font">
 <link rel="icon" type="image/png" href="themes/favicon.png">
 <title>GraphQL - A query language for your API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -455,15 +455,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_definition">1. Definition</a></li>
-<li><a href="#_wieso_graphql">2. Wieso GraphQL?</a>
+<li><a href="#_graphql">2. GraphQL</a></li>
+<li><a href="#_wieso_graphql">3. Wieso GraphQL?</a>
 <ul class="sectlevel2">
-<li><a href="#_alternativen">2.1. Alternativen</a></li>
+<li><a href="#_alternativen">3.1. Alternativen</a></li>
 </ul>
 </li>
-<li><a href="#_beispiel">3. Beispiel</a>
+<li><a href="#_performance">4. Performance</a></li>
+<li><a href="#_beispiel">5. Beispiel</a>
 <ul class="sectlevel2">
-<li><a href="#_ausgangssituation_was_wollen_wir_machen">3.1. Ausgangssituation (Was wollen wir machen)</a></li>
-<li><a href="#_endpoints_and_stuff">3.2. Endpoints and stuff</a></li>
+<li><a href="#_ausgangssituation_was_wollen_wir_machen">5.1. Ausgangssituation (Was wollen wir machen)</a></li>
+<li><a href="#_endpoints_and_stuff">5.2. Endpoints and stuff</a></li>
 </ul>
 </li>
 </ul>
@@ -476,7 +478,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
-<p>"GraphQL is a <strong>query language</strong> for APIs and a <strong>runtime</strong> for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for <strong>exactly what they need and nothing more</strong>, makes it easier to evolve APIs over time, and enables powerful developer tools."</p>
+<p>GraphQL is a <strong>query language</strong> for <strong>APIs</strong> and a <strong>runtime</strong> for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for <strong>exactly what they need and nothing more</strong>, makes it easier to evolve APIs over time, and enables powerful developer tools."</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; graphql.org
+</div>
+</div>
+<details>
+<summary class="title">(In Deutsch)</summary>
+<div class="content">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>GraphQL ist eine <strong>Abfragesprache</strong> für <strong>APIs</strong> und eine <strong>Laufzeitumgebung</strong> zur Ausführung dieser Abfragen mit Ihren vorhandenen Daten. GraphQL bietet eine vollständige und verständliche Beschreibung der Daten in Ihrer API, gibt den Clients die Möglichkeit, genau das abzufragen, <strong>was sie benötigen, und nichts darüber hinaus</strong>. Es erleichtert die Weiterentwicklung von APIs im Laufe der Zeit und ermöglicht den Einsatz leistungsstarker Entwickler-Tools.</p>
 </div>
 </blockquote>
 <div class="attribution">
@@ -484,33 +499,74 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+</details>
+<div class="ulist">
+<ul>
+<li>
+<p>Query Language: Definiert, was abgefragt wird.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Standardisiertes Mittel, um Informationen aus einem System, z. B. einer Datenbank oder einer API, zu holen.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>API: Die Schnittstelle, die diese Abfragen ermöglicht.</p>
+</li>
+<li>
+<p>Runtime: Führt die Abfragen aus und liefert die Ergebnisse.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect1">
-<h2 id="_wieso_graphql"><a class="anchor" href="#_wieso_graphql"></a>2. Wieso GraphQL?</h2>
+<h2 id="_graphql"><a class="anchor" href="#_graphql"></a>2. GraphQL</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wieso_graphql"><a class="anchor" href="#_wieso_graphql"></a>3. Wieso GraphQL?</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_alternativen"><a class="anchor" href="#_alternativen"></a>2.1. Alternativen</h3>
+<h3 id="_alternativen"><a class="anchor" href="#_alternativen"></a>3.1. Alternativen</h3>
 
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_beispiel"><a class="anchor" href="#_beispiel"></a>3. Beispiel</h2>
+<h2 id="_performance"><a class="anchor" href="#_performance"></a>4. Performance</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_beispiel"><a class="anchor" href="#_beispiel"></a>5. Beispiel</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_ausgangssituation_was_wollen_wir_machen"><a class="anchor" href="#_ausgangssituation_was_wollen_wir_machen"></a>3.1. Ausgangssituation (Was wollen wir machen)</h3>
+<h3 id="_ausgangssituation_was_wollen_wir_machen"><a class="anchor" href="#_ausgangssituation_was_wollen_wir_machen"></a>5.1. Ausgangssituation (Was wollen wir machen)</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_endpoints_and_stuff"><a class="anchor" href="#_endpoints_and_stuff"></a>3.2. Endpoints and stuff</h3>
-
+<h3 id="_endpoints_and_stuff"><a class="anchor" href="#_endpoints_and_stuff"></a>5.2. Endpoints and stuff</h3>
+<div class="paragraph">
+<p>Fragen:
+Wie Funktioniert GraphQL?
+Wieso GraphQL?
+Alternativen?
+Vorteile Nachteile?
+Performance?</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-11 08:30:09 UTC
+Last updated 2024-12-17 14:42:32 UTC
 </div>
 </div>
 </body>
