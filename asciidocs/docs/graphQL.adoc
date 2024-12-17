@@ -1,20 +1,50 @@
 = GraphQL - A query language for your API
+:sectnums:
 :author: Linus Nestler
 :toc: left
+:source-highlighter: rouge
+:icons:font
 
 == Definition
 
 [quote, graphql.org]
 ____
-"GraphQL is a *query language* for APIs and a *runtime* for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for *exactly what they need and nothing more*, makes it easier to evolve APIs over time, and enables powerful developer tools."
+GraphQL is a *query language* for *APIs* and a *runtime* for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for *exactly what they need and nothing more*, makes it easier to evolve APIs over time, and enables powerful developer tools."
 ____
+
+.(In Deutsch)
+[%collapsible]
+====
+[quote, graphql.org]
+____
+GraphQL ist eine *Abfragesprache* für *APIs* und eine *Laufzeitumgebung* zur Ausführung dieser Abfragen mit Ihren vorhandenen Daten. GraphQL bietet eine vollständige und verständliche Beschreibung der Daten in Ihrer API, gibt den Clients die Möglichkeit, genau das abzufragen, *was sie benötigen, und nichts darüber hinaus*. Es erleichtert die Weiterentwicklung von APIs im Laufe der Zeit und ermöglicht den Einsatz leistungsstarker Entwickler-Tools.
+____
+====
+
+* Query Language: Definiert, was abgefragt wird.
+** Standardisiertes Mittel, um Informationen aus einem System, z. B. einer Datenbank oder einer API, zu holen.
+* API: Die Schnittstelle, die diese Abfragen ermöglicht.
+* Runtime: Führt die Abfragen aus und liefert die Ergebnisse.
+
+== GraphQL
+
+
 
 == Wieso GraphQL?
 
 === Alternativen
+
+== Performance
 
 == Beispiel
 
 === Ausgangssituation (Was wollen wir machen)
 
 === Endpoints and stuff
+
+Fragen:
+Wie Funktioniert GraphQL?
+Wieso GraphQL?
+Alternativen?
+Vorteile Nachteile?
+Performance?
