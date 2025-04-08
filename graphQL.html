@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<meta name="author" content=":icons:font">
+<meta name="author" content="Linus Nestler">
 <link rel="icon" type="image/png" href="themes/favicon.png">
 <title>GraphQL - A query language for your API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -652,9 +652,67 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_graphql_http"><a class="anchor" href="#_graphql_http"></a>1.1.3. GraphQL &amp; HTTP</h4>
+<h4 id="_graphql_transport"><a class="anchor" href="#_graphql_transport"></a>1.1.3. GraphQL - Transport</h4>
 <div class="paragraph">
 <p>In Beispiel darüber wird GraphQL über HTTP angesprochen. Es ist jedoch nicht auf HTTP beschränkt. Da GraphQL kein Transportprotokoll ist, sondern ein Abfragesystem, kann es auch über andere Protokolle wie WebSocket oder gRPC verwendet werden.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+GraphQL definiert, <code>wie</code> du Daten abfragen oder manipulieren kannst – <code>nicht</code>, wie diese Daten transportiert werden.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In der Praxis wird GraphQL meist über HTTP verwendet, zB.:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>POST /graphql – mit einer Query im Body</p>
+</li>
+<li>
+<p>GET /graphql?query={&#8230;&#8203;} – seltener, für einfache Lese-Requests</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Der Vorteil:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Bekannte HTTP-Mechanismen</p>
+</li>
+<li>
+<p>CORS, Authentifizierung, Caching</p>
+</li>
+<li>
+<p>Bestehende Infrastruktur nutzen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Alternative Transportprotokolle (möglich, aber seltener)
+GraphQL kann theoretisch auch über andere Protokolle laufen, z.B.:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>WebSockets – z. B. für Subscriptions (live updates)</p>
+</li>
+<li>
+<p>MQTT / AMQP – in IoT- oder Messaging-Systemen</p>
+</li>
+<li>
+<p>gRPC – in performanteren Microservice-Umgebungen</p>
+</li>
+</ul>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -760,7 +818,7 @@ Performance?</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-08 14:23:23 UTC
+Last updated 2025-04-08 14:49:58 UTC
 </div>
 </div>
 </body>
