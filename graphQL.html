@@ -454,14 +454,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_definition">1. Definition</a></li>
-<li><a href="#_graphql">2. GraphQL</a></li>
-<li><a href="#_wieso_graphql">3. Wieso GraphQL?</a>
+<li><a href="#_was_ist_graphql">1. Was ist GraphQL</a>
 <ul class="sectlevel2">
-<li><a href="#_alternativen">3.1. Alternativen</a></li>
+<li><a href="#_rest_vs_graphql">1.1. Rest vs. GraphQL</a></li>
 </ul>
 </li>
-<li><a href="#_performance">4. Performance</a></li>
+<li><a href="#_welches_problem_löst_graphql">2. Welches Problem löst GraphQL?</a>
+<ul class="sectlevel2">
+<li><a href="#_wie">2.1. Wie?</a></li>
+</ul>
+</li>
+<li><a href="#_entwicklung_von_graphql">3. Entwicklung von GraphQL</a>
+<ul class="sectlevel2">
+<li><a href="#_timeline">3.1. Timeline</a></li>
+<li><a href="#_wieso_entstand_graphql">3.2. Wieso entstand GraphQL?</a></li>
+</ul>
+</li>
+<li><a href="#_wer_benutzt_graphql">4. Wer benutzt GraphQL?</a></li>
 <li><a href="#_beispiel">5. Beispiel</a>
 <ul class="sectlevel2">
 <li><a href="#_ausgangssituation_was_wollen_wir_machen">5.1. Ausgangssituation (Was wollen wir machen)</a></li>
@@ -473,7 +482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_definition"><a class="anchor" href="#_definition"></a>1. Definition</h2>
+<h2 id="_was_ist_graphql"><a class="anchor" href="#_was_ist_graphql"></a>1. Was ist GraphQL</h2>
 <div class="sectionbody">
 <div class="quoteblock">
 <blockquote>
@@ -485,21 +494,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 &#8212; graphql.org
 </div>
 </div>
-<details>
-<summary class="title">(In Deutsch)</summary>
-<div class="content">
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>GraphQL ist eine <strong>Abfragesprache</strong> für <strong>APIs</strong> und eine <strong>Laufzeitumgebung</strong> zur Ausführung dieser Abfragen mit Ihren vorhandenen Daten. GraphQL bietet eine vollständige und verständliche Beschreibung der Daten in Ihrer API, gibt den Clients die Möglichkeit, genau das abzufragen, <strong>was sie benötigen, und nichts darüber hinaus</strong>. Es erleichtert die Weiterentwicklung von APIs im Laufe der Zeit und ermöglicht den Einsatz leistungsstarker Entwickler-Tools.</p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; graphql.org
-</div>
-</div>
-</div>
-</details>
 <div class="ulist">
 <ul>
 <li>
@@ -520,27 +514,227 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_graphql"><a class="anchor" href="#_graphql"></a>2. GraphQL</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_wieso_graphql"><a class="anchor" href="#_wieso_graphql"></a>3. Wieso GraphQL?</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_alternativen"><a class="anchor" href="#_alternativen"></a>3.1. Alternativen</h3>
+<h3 id="_rest_vs_graphql"><a class="anchor" href="#_rest_vs_graphql"></a>1.1. Rest vs. GraphQL</h3>
+<div class="paragraph">
+<p>GraphQL und REST verfolgen unterschiedliche Ansätze, wenn es um den Zugriff auf Daten geht.</p>
+</div>
+<div class="paragraph">
+<p>Während bei REST jede Datenressource über einen eigenen <strong>Endpunkt</strong> angesprochen werden muss, erlaubt GraphQL dem Client, alle benötigten Informationen in <strong>einer einzigen</strong> Abfrage zu definieren und gebündelt abzurufen.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/rest-vs-graphql.png" alt="rest vs graphql">
+</div>
+<div class="title">Figure 1. <a href="https://www.wallarm.com/what/graphql-vs-rest-all-that-you-must-know" class="bare">https://www.wallarm.com/what/graphql-vs-rest-all-that-you-must-know</a></div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>REST API – Der Client kommuniziert mit mehreren separaten Endpunkten, um Informationen zu erhalten.</p>
+</li>
+<li>
+<p>GraphQL API – Der Client sendet eine einzige Abfrage, die alle gewünschten Daten beinhaltet. Die GraphQL-Schicht übernimmt das Routing zu den jeweiligen Datenquellen im Hintergrund.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_rest"><a class="anchor" href="#_rest"></a>1.1.1. REST</h4>
+<div class="paragraph">
+<p>Was ist REST?</p>
+</div>
+<div class="paragraph">
+<p>REST steht für <strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer und ist ein Architekturstil für Web-APIs. Er basiert auf dem HTTP-Protokoll und nutzt dessen Methoden wie GET, POST, PUT und DELETE, um auf Daten zuzugreifen oder diese zu verändern.</p>
+</div>
+<div class="paragraph">
+<p>In einer REST-API ist jede Ressource (z.B. Menü, Preis oder Image) durch eine eindeutige URL (Endpunkt) identifizierbar. Die Kommunikation erfolgt über mehrere solcher Endpunkte, wobei jede Anfrage eine vordefinierte Antwortstruktur liefert.</p>
+</div>
+<div class="paragraph">
+<p><strong>Beispiel</strong>: Um Informationen über ein Menü und dessen Bilder zu erhalten, muss der Client zwei Requests senden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>/menu/123</p>
+</li>
+<li>
+<p>/menu/123/image</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nachteile:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mehrere Requests für zusammenhängende Daten</p>
+</li>
+<li>
+<p>Feste Antwortformate</p>
+</li>
+<li>
+<p>Oft unnötige oder unvollständige Daten (Over-/Underfetching)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Typisch für REST:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Feste Routen wie /users, /posts, /comments</p>
+</li>
+<li>
+<p>Eine Antwortstruktur pro Endpunkt</p>
+</li>
+<li>
+<p>Separate HTTP-Requests pro Datenobjekt</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/rest-hy.png" alt="rest hy">
+</div>
+<div class="title">Figure 2. <a href="https://hygraph.com/blog/graphql-vs-rest-apis" class="bare">https://hygraph.com/blog/graphql-vs-rest-apis</a></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_graphql"><a class="anchor" href="#_graphql"></a>1.1.2. GraphQL</h4>
+<div class="paragraph">
+<p>GraphQL ist eine alternative API-Technologie, der Client formuliert eine einzige Abfrage, in der genau angegeben wird, welche Felder und Objekte benötigt werden. Diese Anfrage wird an einen zentralen Endpunkt geschickt.</p>
+</div>
+<div class="paragraph">
+<p>Im Hintergrund sorgt GraphQL dafür, dass alle relevanten Datenquellen kontaktiert und die Ergebnisse in einer einzigen, strukturierten Antwort zusammengeführt werden.</p>
+</div>
+<div class="paragraph">
+<p>Vorteile:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Nur ein Request nötig</p>
+</li>
+<li>
+<p>Flexible, client-gesteuerte Antwortstruktur</p>
+</li>
+<li>
+<p>Keine überflüssigen Daten</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ganz ohne mehrere HTTP-Aufrufe.</p>
+</div>
+<div class="paragraph">
+<p>Typisch für GraphQL:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ein einziger Endpunkt (z. B. /graphql)</p>
+</li>
+<li>
+<p>Der Client bestimmt Struktur und Umfang der Antwort</p>
+</li>
+<li>
+<p>Kombinierte Daten aus mehreren Ressourcen in einer einzigen Antwort</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-hy.png" alt="graphql hy">
+</div>
+<div class="title">Figure 3. <a href="https://hygraph.com/blog/graphql-vs-rest-apis" class="bare">https://hygraph.com/blog/graphql-vs-rest-apis</a></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_graphql_http"><a class="anchor" href="#_graphql_http"></a>1.1.3. GraphQL &amp; HTTP</h4>
+<div class="paragraph">
+<p>In Beispiel darüber wird GraphQL über HTTP angesprochen. Es ist jedoch nicht auf HTTP beschränkt. Da GraphQL kein Transportprotokoll ist, sondern ein Abfragesystem, kann es auch über andere Protokolle wie WebSocket oder gRPC verwendet werden.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-with-grpc-ws-http.png" alt="graphql with grpc ws http">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_welches_problem_löst_graphql"><a class="anchor" href="#_welches_problem_löst_graphql"></a>2. Welches Problem löst GraphQL?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bei klassischen REST-APIs stößt man in der Praxis schnell auf folgende Herausforderungen:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Problem</th>
+<th class="tableblock halign-left valign-top">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Overfetching</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Der Client erhält mehr Daten als benötigt, z. B. alle User-Felder, obwohl nur Name und E-Mail angezeigt werden sollen.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Underfetching</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Es werden mehrere Requests nötig, um zusammengehörige Daten zu laden, z. B. zuerst ein User, dann separat seine Posts.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Viele Endpunkte</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Für komplexe UIs müssen Daten aus verschiedenen Endpunkten zusammengeführt werden – das macht das Frontend komplexer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Versionschaos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API-Änderungen führen oft zu neuen Versionen (z. B. <code>/v1</code>, <code>/v2</code>), was Wartung erschwert.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_wie"><a class="anchor" href="#_wie"></a>2.1. Wie?</h3>
 
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_performance"><a class="anchor" href="#_performance"></a>4. Performance</h2>
+<h2 id="_entwicklung_von_graphql"><a class="anchor" href="#_entwicklung_von_graphql"></a>3. Entwicklung von GraphQL</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Über die Jahre sind viele API-Standards entstanden, die alle ihre Vor- und Nachteile haben. GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwickelt wurde und <code>2015 als Open Source </code>veröffentlicht wurde.</p>
+</div>
+<div class="sect2">
+<h3 id="_timeline"><a class="anchor" href="#_timeline"></a>3.1. Timeline</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/timeline.png" alt="timeline">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wieso_entstand_graphql"><a class="anchor" href="#_wieso_entstand_graphql"></a>3.2. Wieso entstand GraphQL?</h3>
 
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wer_benutzt_graphql"><a class="anchor" href="#_wer_benutzt_graphql"></a>4. Wer benutzt GraphQL?</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-users.png" alt="graphql users">
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -566,7 +760,7 @@ Performance?</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-17 14:42:32 UTC
+Last updated 2025-04-08 14:23:23 UTC
 </div>
 </div>
 </body>
