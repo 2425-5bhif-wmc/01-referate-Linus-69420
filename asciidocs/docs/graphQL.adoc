@@ -5,36 +5,129 @@
 :source-highlighter: rouge
 :icons:font
 
-== Definition
+== Was ist GraphQL
 
 [quote, graphql.org]
 ____
 GraphQL is a *query language* for *APIs* and a *runtime* for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for *exactly what they need and nothing more*, makes it easier to evolve APIs over time, and enables powerful developer tools."
 ____
 
-.(In Deutsch)
-[%collapsible]
-====
-[quote, graphql.org]
-____
-GraphQL ist eine *Abfragesprache* für *APIs* und eine *Laufzeitumgebung* zur Ausführung dieser Abfragen mit Ihren vorhandenen Daten. GraphQL bietet eine vollständige und verständliche Beschreibung der Daten in Ihrer API, gibt den Clients die Möglichkeit, genau das abzufragen, *was sie benötigen, und nichts darüber hinaus*. Es erleichtert die Weiterentwicklung von APIs im Laufe der Zeit und ermöglicht den Einsatz leistungsstarker Entwickler-Tools.
-____
-====
-
 * Query Language: Definiert, was abgefragt wird.
 ** Standardisiertes Mittel, um Informationen aus einem System, z. B. einer Datenbank oder einer API, zu holen.
 * API: Die Schnittstelle, die diese Abfragen ermöglicht.
 * Runtime: Führt die Abfragen aus und liefert die Ergebnisse.
 
-== GraphQL
+=== Rest vs. GraphQL
+
+GraphQL und REST verfolgen unterschiedliche Ansätze, wenn es um den Zugriff auf Daten geht.
+
+Während bei REST jede Datenressource über einen eigenen *Endpunkt* angesprochen werden muss, erlaubt GraphQL dem Client, alle benötigten Informationen in *einer einzigen* Abfrage zu definieren und gebündelt abzurufen.
+
+.https://www.wallarm.com/what/graphql-vs-rest-all-that-you-must-know
+
+image::images/rest-vs-graphql.png[]
+
+* REST API – Der Client kommuniziert mit mehreren separaten Endpunkten, um Informationen zu erhalten.
+* GraphQL API – Der Client sendet eine einzige Abfrage, die alle gewünschten Daten beinhaltet. Die GraphQL-Schicht übernimmt das Routing zu den jeweiligen Datenquellen im Hintergrund.
+
+==== REST
+
+Was ist REST?
+
+REST steht für **RE**presentational **S**tate **T**ransfer und ist ein Architekturstil für Web-APIs. Er basiert auf dem HTTP-Protokoll und nutzt dessen Methoden wie GET, POST, PUT und DELETE, um auf Daten zuzugreifen oder diese zu verändern.
+
+In einer REST-API ist jede Ressource (z.B. Menü, Preis oder Image) durch eine eindeutige URL (Endpunkt) identifizierbar. Die Kommunikation erfolgt über mehrere solcher Endpunkte, wobei jede Anfrage eine vordefinierte Antwortstruktur liefert.
+
+*Beispiel*: Um Informationen über ein Menü und dessen Bilder zu erhalten, muss der Client zwei Requests senden:
+
+* /menu/123
+* /menu/123/image
+
+Nachteile:
+
+* Mehrere Requests für zusammenhängende Daten
+* Feste Antwortformate
+* Oft unnötige oder unvollständige Daten (Over-/Underfetching)
+
+Typisch für REST:
+
+* Feste Routen wie /users, /posts, /comments
+* Eine Antwortstruktur pro Endpunkt
+* Separate HTTP-Requests pro Datenobjekt
+
+.https://hygraph.com/blog/graphql-vs-rest-apis
+image::images/rest-hy.png[]
+
+==== GraphQL
+
+GraphQL ist eine alternative API-Technologie, der Client formuliert eine einzige Abfrage, in der genau angegeben wird, welche Felder und Objekte benötigt werden. Diese Anfrage wird an einen zentralen Endpunkt geschickt.
+
+Im Hintergrund sorgt GraphQL dafür, dass alle relevanten Datenquellen kontaktiert und die Ergebnisse in einer einzigen, strukturierten Antwort zusammengeführt werden.
+
+Vorteile:
+
+* Nur ein Request nötig
+* Flexible, client-gesteuerte Antwortstruktur
+* Keine überflüssigen Daten
+
+Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ganz ohne mehrere HTTP-Aufrufe.
+
+Typisch für GraphQL:
+
+* Ein einziger Endpunkt (z. B. /graphql)
+* Der Client bestimmt Struktur und Umfang der Antwort
+* Kombinierte Daten aus mehreren Ressourcen in einer einzigen Antwort
+
+.https://hygraph.com/blog/graphql-vs-rest-apis
+image::images/graphql-hy.png[]
+
+==== GraphQL & HTTP
+
+In Beispiel darüber wird GraphQL über HTTP angesprochen. Es ist jedoch nicht auf HTTP beschränkt. Da GraphQL kein Transportprotokoll ist, sondern ein Abfragesystem, kann es auch über andere Protokolle wie WebSocket oder gRPC verwendet werden.
+
+image::images/graphql-with-grpc-ws-http.png[]
+
+== Welches Problem löst GraphQL?
+
+Bei klassischen REST-APIs stößt man in der Praxis schnell auf folgende Herausforderungen:
+
+[cols="1,4",options="header"]
+|===
+| Problem | Beschreibung
+
+| Overfetching
+| Der Client erhält mehr Daten als benötigt, z. B. alle User-Felder, obwohl nur Name und E-Mail angezeigt werden sollen.
+
+| Underfetching
+| Es werden mehrere Requests nötig, um zusammengehörige Daten zu laden, z. B. zuerst ein User, dann separat seine Posts.
+
+| Viele Endpunkte
+| Für komplexe UIs müssen Daten aus verschiedenen Endpunkten zusammengeführt werden – das macht das Frontend komplexer.
+
+| Versionschaos
+| API-Änderungen führen oft zu neuen Versionen (z. B. `/v1`, `/v2`), was Wartung erschwert.
+|===
+
+=== Wie?
 
 
 
-== Wieso GraphQL?
 
-=== Alternativen
+== Entwicklung von GraphQL
 
-== Performance
+Über die Jahre sind viele API-Standards entstanden, die alle ihre Vor- und Nachteile haben. GraphQL ist ein relativ neuer Standard, der `2012 von Facebook` entwickelt wurde und ``2015 als Open Source ``veröffentlicht wurde.
+
+=== Timeline
+
+image::images/timeline.png[]
+
+=== Wieso entstand GraphQL?
+
+
+
+== Wer benutzt GraphQL?
+
+image::images/graphql-users.png[]
 
 == Beispiel
 
