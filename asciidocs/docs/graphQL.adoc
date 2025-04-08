@@ -3,7 +3,7 @@
 :author: Linus Nestler
 :toc: left
 :source-highlighter: rouge
-:icons:font
+:icons: font
 
 == Was ist GraphQL
 
@@ -81,9 +81,31 @@ Typisch für GraphQL:
 .https://hygraph.com/blog/graphql-vs-rest-apis
 image::images/graphql-hy.png[]
 
-==== GraphQL & HTTP
+==== GraphQL - Transport
 
 In Beispiel darüber wird GraphQL über HTTP angesprochen. Es ist jedoch nicht auf HTTP beschränkt. Da GraphQL kein Transportprotokoll ist, sondern ein Abfragesystem, kann es auch über andere Protokolle wie WebSocket oder gRPC verwendet werden.
+
+IMPORTANT: GraphQL definiert, `wie` du Daten abfragen oder manipulieren kannst – `nicht`, wie diese Daten transportiert werden.
+
+In der Praxis wird GraphQL meist über HTTP verwendet, zB.:
+
+* POST /graphql – mit einer Query im Body
+* GET /graphql?query={...} – seltener, für einfache Lese-Requests
+
+Der Vorteil:
+
+* Bekannte HTTP-Mechanismen
+* CORS, Authentifizierung, Caching
+* Bestehende Infrastruktur nutzen
+
+Alternative Transportprotokolle (möglich, aber seltener)
+GraphQL kann theoretisch auch über andere Protokolle laufen, z.B.:
+
+* WebSockets – z. B. für Subscriptions (live updates)
+
+* MQTT / AMQP – in IoT- oder Messaging-Systemen
+
+* gRPC – in performanteren Microservice-Umgebungen
 
 image::images/graphql-with-grpc-ws-http.png[]
 
