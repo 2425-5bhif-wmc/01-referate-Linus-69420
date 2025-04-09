@@ -85,7 +85,7 @@ image::images/graphql-hy.png[]
 
 In Beispiel darüber wird GraphQL über HTTP angesprochen. Es ist jedoch nicht auf HTTP beschränkt. Da GraphQL kein Transportprotokoll ist, sondern ein Abfragesystem, kann es auch über andere Protokolle wie WebSocket oder gRPC verwendet werden.
 
-IMPORTANT: GraphQL definiert, `wie` du Daten abfragen oder manipulieren kannst – `nicht`, wie diese Daten transportiert werden.
+IMPORTANT: GraphQL definiert, `wie` man Daten abfragen oder manipulieren kann – `nicht`, wie diese Daten transportiert werden.
 
 In der Praxis wird GraphQL meist über HTTP verwendet, zB.:
 
@@ -105,7 +105,7 @@ GraphQL kann theoretisch auch über andere Protokolle laufen, z.B.:
 
 * MQTT / AMQP – in IoT- oder Messaging-Systemen
 
-* gRPC – in performanteren Microservice-Umgebungen
+* gRPC – in performanteren Umgebungen
 
 image::images/graphql-with-grpc-ws-http.png[]
 
@@ -130,7 +130,131 @@ Bei klassischen REST-APIs stößt man in der Praxis schnell auf folgende Herausf
 | API-Änderungen führen oft zu neuen Versionen (z. B. `/v1`, `/v2`), was Wartung erschwert.
 |===
 
-=== Wie?
+== Wie funktioniert GraphQL?
+
+Idee: Der Client bestimmt, *was* er braucht – und der Server liefert *genau das*.
+
+=== Grundprinzipien
+
+.https://dineshigdd.medium.com/how-to-set-up-a-graphql-server-a-beginners-guide-to-graphql-fe1e7bb83ffc
+image::images/graphql-server-arch.png[]
+
+Der GraphQL-Server dient als mittlere Schicht zwischen Client und dem eigentlichen Backend. Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen der Daten.
+
+* *Schema*: Der Server definiert ein typisiertes Schema mit allen möglichen Datenstrukturen, Queries, Mutations und Subscriptions.
+* *Query Language*: Der Client sendet eine Abfrage (Query) an den Server – ähnlich wie eine SQL-Abfrage.
+* *Resolver*: Auf Serverseite beantworten sogenannte *Resolver-Funktionen* die angeforderten Felder und holen die Daten z. B. aus einer Datenbank oder einem anderen API.
+* *Response/Antwortformat*: Die Antwort entspricht exakt der Struktur der Query.
+
+=== GraphQL Schema
+
+Objekttypen repräsentieren die Hauptobjekte, die von der API bereitgestellt werden. Jeder Objekttyp besitzt spezifische Felder, die die Eigenschaften oder Beziehungen dieses Objekts definieren.
+
+.Beispiel:
+[source,graphql]
+----
+type Character {
+  name: String!
+  appearsIn: [Episode!]!
+}
+----
+
+In diesem Beispiel hat der Objekttyp `Character` zwei Felder: `name` vom Typ `String!` (nicht-nullbarer String) und `appearsIn`, eine Liste nicht-nullbarer `Episode`-Werte.
+
+Felder können Argumente akzeptieren, um spezifische Daten anzufordern.
+
+.Beispiel:
+[source,graphql]
+----
+type Query {
+  human(id: ID!): Human
+}
+----
+
+Hier akzeptiert das `human`-Feld ein Argument `id` vom Typ `ID!`, um einen bestimmten Menschen zu identifizieren.
+
+==== Die Typen Query, Mutation und Subscription
+
+- **Query:** Definiert die Einstiegspunkte für Leseoperationen.
+- **Mutation:** Ermöglicht Schreiboperationen zur Modifikation von Daten.
+- **Subscription:** Unterstützt Echtzeit-Updates durch dauerhafte Verbindungen.
+
+.Beispiel:
+[source,graphql]
+----
+type Query {
+  books: [Book]
+}
+
+type Mutation {
+  addBook(title: String!, author: String!): Book
+}
+
+type Subscription {
+  bookAdded: Book
+}
+----
+
+=== Beispiel-Query
+
+[source,graphql]
+----
+{
+  user(id: "1") {
+    name
+    email
+    posts {
+      title
+    }
+  }
+}
+----
+
+=== Serverantwort
+
+[source,json]
+----
+{
+  "data": {
+    "user": {
+      "name": "Alice",
+      "email": "alice@example.com",
+      "posts": [
+        { "title": "Hello GraphQL" },
+        { "title": "REST is not enough" }
+      ]
+    }
+  }
+}
+----
+
+=== Resolver
+
+Jedes Feld in einer Query wird von einer sogenannten *Resolver*-Funktion bearbeitet. Ein Resolver weiß, wie und woher die Daten geholt werden. Zum Beispiel:
+
+[source,javascript]
+----
+// Beispiel in JavaScript
+const resolvers = {
+  Query: {
+    user: (parent, args, context, info) => {
+      return db.users.findById(args.id);
+    }
+  },
+  User: {
+    posts: (user) => {
+      return db.posts.filter(post => post.authorId === user.id);
+    }
+  }
+};
+----
+
+=== Zusammenfassung
+
+. Der Client definiert die Query
+. Der Server prüft sie gegen das Schema
+. Resolver liefern die Daten
+. Der Server gibt die exakt angeforderten Daten zurück
 
 
 
