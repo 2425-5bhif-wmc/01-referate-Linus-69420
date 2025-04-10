@@ -920,6 +920,91 @@ public class CarGraphQLResource {
 
 === Ergebnis
 
+http://178.63.86.237:8081/q/graphql-ui[GraphQL UI]
 
+.Querys & Mutationen
+[%collapsible]
+====
+.cars
+[source,graphql]
+----
+query {
+  cars {
+    id
+    brand
+    model
+    manufactureYear
+    color
+    vin
+    engine {
+      id
+      power
+      fuelType
+      cylinders
+      displacement
+      turbocharged
+    }
+  }
+}
+----
+
+.addcar
+[source,graphql]
+----
+mutation {
+  addCar(
+    brand: "Renault"
+    model: "Laguna"
+    manufactureYear: 2011
+    color: "Dark Blue"
+    vin: "VF1KG0E0641234567"
+    engine: {
+      power: 130
+      fuelType: DIESEL
+      cylinders: 4
+      displacement: 1.9
+      turbocharged: false
+    }
+  ) {
+    id
+    brand
+    model
+    manufactureYear
+  }
+}
+----
+
+.update
+[source,graphql]
+----
+mutation {
+  updateCar(
+    id: 10
+    brand: "Renault"
+    model: "Laguna GT"
+    manufactureYear: 2012
+    color: "Midnight Blue"
+    vin: "VF1KG0E0649999999"
+  ) {
+    id
+    brand
+    model
+    manufactureYear
+    color
+    vin
+  }
+}
+----
+
+.delete
+[source,graphql]
+----
+mutation {
+  deleteCar(id: 10)
+}
+
+----
+
+====
 
 == Fazit
