@@ -1,19 +1,18 @@
 package at.htl.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 @Entity
 public class Car {
     public String brand;
     public String model;
-    public int year;
+    public int manufactureYear;
     public String color;
     public String vin;
-    @OneToOne(cascade = CascadeType.ALL)
-    public Engine engine;
+    @ManyToOne
+    @JoinColumn(name = "engine_id") // no "unique = true"
+    private Engine engine;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +22,7 @@ public class Car {
     public Car(String brand, String model, int year, String color, String vin, Engine engine) {
         this.brand = brand;
         this.model = model;
-        this.year = year;
+        this.manufactureYear = year;
         this.color = color;
         this.vin = vin;
         this.engine = engine;
@@ -45,12 +44,12 @@ public class Car {
         this.model = model;
     }
 
-    public int getYear() {
-        return year;
+    public int getManufactureYear() {
+        return manufactureYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setManufactureYear(int year) {
+        this.manufactureYear = year;
     }
 
     public String getColor() {

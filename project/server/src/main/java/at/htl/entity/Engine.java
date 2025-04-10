@@ -1,17 +1,15 @@
 package at.htl.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Engine{
 
     public int power; // in HP
-    public FuelType fuelType;
-    public int cylinders;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fuelType;    public int cylinders;
     public double displacement; // in liters
     public boolean turbocharged;
     @Id

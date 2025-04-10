@@ -714,10 +714,11 @@ query {
 
 == Beispiel Projekt
 
-In diesem Beispielprojekt wird eine einfache GraphQL-API für Autos und Motoren implementiert.
-
+In diesem Beispielprojekt wird eine einfache GraphQL-API für Autos und Motoren implementiert. Die Anwendung basiert auf `Quarkus`, verwendet`` Hibernate ORM ``für die Datenbankanbindung und `SmallRye GraphQL` zur Bereitstellung der GraphQL-Schnittstelle.
 
 === Datenmodell
+
+Das Datenmodell besteht aus den Entitäten `Car`, `Engine` und einem Enum `FuelType`, welches den Motortyp beschreibt (z. B. PETROL, DIESEL, ELECTRIC etc.).
 
 image::images/uml[]
 
@@ -726,15 +727,199 @@ image::images/uml[]
 ----
 src/main/java/
 └── at/
-└── htl/
-├── boundary/
-│   └── CarGraphQLResource.java
-├── controller/
-│   ├── CarRepository.java
-│   └── EngineRepository.java
-└── entity/
-    ├── Car.java
-    └── Engine.java
+    └── htl/
+        ├── boundary/
+        │   └── CarGraphQLResource.java
+        ├── controller/
+        │   ├── CarRepository.java
+        │   └── EngineRepository.java
+        └── entity/
+            ├── Car.java
+            ├── FuelType.java
+            └── Engine.java
 ----
+
+=== Entitäten
+
+Die Entitäten Car, Engine und FuelType sind wie bei einer Standard JPA-Anwendung definiert. Sie sind mit `@Entity` annotiert und repräsentieren die Datenbanktabellen.
+
+IMPORTANT: Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
+
+.Entitäten
+[%collapsible]
+====
+
+[source, java]
+.Car.java
+----
+@Entity
+public class Car {
+    public String brand;
+    public String model;
+    public int year;
+    public String color;
+    public String vin;
+    @OneToOne(cascade = CascadeType.ALL)
+    public Engine engine;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    public Car() {}
+
+    public Car(String brand, String model, int year, String color, String vin, Engine engine) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+        this.vin = vin;
+        this.engine = engine;
+    }
+    ... //Getter Setter
+}
+----
+
+[source, java]
+.Engine.java
+----
+@Entity
+public class Engine{
+
+    public int power; // in HP
+    public FuelType fuelType;
+    public int cylinders;
+    public double displacement; // in liters
+    public boolean turbocharged;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    public Engine() {}
+
+    public Engine( int power, FuelType fuelType, int cylinders, double displacement, boolean turbocharged) {
+        this.power = power;
+        this.fuelType = fuelType;
+        this.cylinders = cylinders;
+        this.displacement = displacement;
+        this.turbocharged = turbocharged;
+    }
+    ... //Getter Setter
+----
+
+[source, java]
+.FuelType.java
+----
+package at.htl.entity;
+
+public enum FuelType {
+    PETROL,
+    DIESEL,
+    ELECTRIC,
+    HYBRID,
+    LPG,
+    HYDROGEN
+}
+----
+====
+
+=== Repositories
+
+Standard-Implementierung mit PanacheRepository.
+
+.Repositories
+[%collapsible]
+====
+[source, java]
+.CarRepository.java
+----
+package at.htl.controller;
+
+import at.htl.entity.Car;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class CarRepository implements PanacheRepository<Car> {
+}
+----
+
+[source, java]
+.EngineRepository.java
+----
+package at.htl.controller;
+
+import at.htl.entity.Engine;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class EngineRepository implements PanacheRepository<Engine> {
+}
+----
+====
+
+=== GraphQL-Resource
+
+Die GraphQL-Resource stellt die Schnittstelle nach außen dar. Die Klasse ist mit `@GraphQLApi` annotiert, wodurch ihre Methoden als GraphQL-Operationen verfügbar gemacht werden. Sie bietet Queries und Mutationen zum Lesen, Hinzufügen, Aktualisieren und Löschen von Autos.
+
+[source, java]
+----
+@GraphQLApi // <1>
+@ApplicationScoped
+public class CarGraphQLResource {
+
+    @Inject
+    CarRepository carRepository;
+
+    @Inject
+    EngineRepository engineRepository;
+
+    @Query("cars") // <4>
+    public List<Car> getCars() {
+        return carRepository.listAll();
+    }
+
+    @Mutation // <2>
+    @Transactional // <3>
+    public Car addCar(
+            @Name("brand") String brand,     // <4>
+            @Name("model") String model,
+            @Name("year") int year,
+            @Name("color") String color,
+            @Name("vin") String vin,
+            @Name("engine") Engine engine
+    ) {
+        // Add and return car
+    }
+
+    @Mutation // <5>
+    @Transactional // <3>
+    public Car updateCar(
+            @Name("id") Long id,             // <4>
+            @Name("brand") String brand,
+            @Name("model") String model,
+            @Name("year") int year,
+            @Name("color") String color,
+            @Name("vin") String vin
+    ) {
+       // Update and return car
+    }
+
+    @Mutation // <5>
+    @Transactional // <3>
+    public boolean deleteCar(@Name("id") Long id) { // <4>
+        //Delete car and return true/false
+    }
+}
+----
+<1> `@GraphQLApi`: Markiert die Klasse als GraphQL-Endpunkt. Alle öffentlichen Methoden können damit als GraphQL-Operationen verwendet werden.
+<2> `@Query`: Kennzeichnet eine Methode als GraphQL-Query (Lesefunktion).
+<3> `@Transactional`: Stellt sicher, dass Datenbankoperationen innerhalb einer Transaktion ausgeführt werden.
+<4> `@Name(...)`: Gibt den Namen des Arguments in der GraphQL-API explizit an.
+<5> `@Mutation`: Markiert eine Methode als Mutation – also Schreiboperation wie Hinzufügen, Aktualisieren oder Löschen.
+
+=== Ergebnis
+
+
 
 == Fazit

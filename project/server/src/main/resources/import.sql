@@ -9,7 +9,7 @@ VALUES
     (6, 500, 'PETROL', 8, 4.0, true);
 
 -- Insert Cars
-INSERT INTO Car (id, brand, model, year, color, vin, engine_id)
+INSERT INTO Car (id, brand, model, manufactureYear, color, vin, engine_id)
 VALUES
     (1, 'Audi', 'RS5', 2022, 'Red', 'WAUZZZ8T1DA123456', 1),
     (2, 'Audi', 'S5', 2021, 'Grey', 'WAUZZZ8T1DA654321', 1),                -- same engine as RS5

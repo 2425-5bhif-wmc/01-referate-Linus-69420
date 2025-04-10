@@ -61,7 +61,7 @@ public class CarGraphQLResource {
 
         car.setBrand(brand);
         car.setModel(model);
-        car.setYear(year);
+        car.setManufactureYear(year);
         car.setColor(color);
         car.setVin(vin);
 
