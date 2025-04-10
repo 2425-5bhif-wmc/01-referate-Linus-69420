@@ -1,5 +1,6 @@
 = GraphQL - A query language for your API
 :sectnums:
+ifndef::imagesdir[:imagesdir: images]
 :author: Linus Nestler
 :toc: left
 :source-highlighter: rouge
@@ -25,7 +26,7 @@ GraphQL und REST verfolgen unterschiedliche Ansätze, wenn es um den Zugriff auf
 Während bei REST jede Datenressource über einen eigenen *Endpunkt* angesprochen werden muss, erlaubt GraphQL dem Client, alle benötigten Informationen in *einer einzigen* Abfrage zu definieren und gebündelt abzurufen.
 
 .https://www.wallarm.com/what/graphql-vs-rest-all-that-you-must-know
-image::images/rest-vs-graphql.png[]
+image::rest-vs-graphql.png[]
 
 * REST API – Der Client kommuniziert mit mehreren separaten Endpunkten, um Informationen zu erhalten.
 * GraphQL API – Der Client sendet eine einzige Abfrage, die alle gewünschten Daten beinhaltet.
@@ -59,7 +60,7 @@ Typisch für REST:
 * Separate HTTP-Requests pro Datenobjekt
 
 .https://hygraph.com/blog/graphql-vs-rest-apis
-image::images/rest-hy.png[]
+image::rest-hy.png[]
 
 [source,httprequest]
 ----
@@ -107,7 +108,7 @@ Typisch für GraphQL:
 * Kombinierte Daten aus mehreren Ressourcen in einer einzigen Antwort
 
 .https://hygraph.com/blog/graphql-vs-rest-apis
-image::images/graphql-hy.png[]
+image::graphql-hy.png[]
 
 [source,httprequest]
 ----
@@ -155,7 +156,7 @@ Alternative Transportprotokolle: (möglich, aber seltener) GraphQL kann theoreti
 * MQTT / AMQP – in IoT- oder Messaging-Systemen
 * gRPC – in performanteren Umgebungen
 
-image::images/graphql-with-grpc-ws-http.png[]
+image::graphql-with-grpc-ws-http.png[]
 
 == Welches Problem löst GraphQL?
 
@@ -195,7 +196,7 @@ Idee: Der Client bestimmt, *was* er braucht – und der Server liefert *genau da
 === Grundprinzipien
 
 .https://dineshigdd.medium.com/how-to-set-up-a-graphql-server-a-beginners-guide-to-graphql-fe1e7bb83ffc
-image::images/graphql-server-arch.png[]
+image::graphql-server-arch.png[]
 
 |===
 | Request (oder operation) | Response
@@ -364,7 +365,7 @@ type Subscription {
 ====
 
 .https://tailcall.run/blog/graphql-schema/
-image::images/graphql-schema-example.[]
+image::graphql-schema-example.[]
 
 ==== Query
 
@@ -427,7 +428,7 @@ subscription {
 === Resolver
 
 .https://docs.aws.amazon.com/appsync/latest/devguide/resolver-components.html
-image::images/resolvers.png[]
+image::resolvers.png[]
 
 *Resolver* sind Funktionen im Server-Code, die bestimmen, *wie und woher die Daten in einer GraphQL-Abfrage tatsächlich geholt oder verändert werden*. Während das Schema definiert, *was* möglich ist, liefern Resolver die *Logik*, um das umzusetzen.
 
@@ -598,7 +599,7 @@ GraphQL ist ein relativ neuer Standard, der `2012 von Facebook` entwickelt wurde
 === API-Timeline
 
 .https://www.altexsoft.com/blog/soap-vs-rest-vs-graphql-vs-rpc/
-image::images/timeline.png[]
+image::timeline.png[]
 
 === Wieso entstand GraphQL?
 
@@ -632,7 +633,7 @@ Spezifikation: https://spec.graphql.org/June2023/[GraphQL Specification]
 == Wer benutzt GraphQL?
 
 .https://graphql.org/
-image::images/graphql-users.png[]
+image::graphql-users.png[]
 
 === GitHub
 
@@ -715,7 +716,7 @@ In diesem Beispielprojekt wird eine einfache GraphQL-API für Autos und Motoren 
 
 Das Datenmodell besteht aus den Entitäten `Car`, `Engine` und einem Enum `FuelType`, welches den Motortyp beschreibt (z. B. PETROL, DIESEL, ELECTRIC etc.).
 
-image::images/uml[]
+image::uml[]
 
 === Struktur
 
