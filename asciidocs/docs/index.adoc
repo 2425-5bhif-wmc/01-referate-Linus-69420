@@ -365,7 +365,7 @@ type Subscription {
 ====
 
 .https://tailcall.run/blog/graphql-schema/
-image::graphql-schema-example.[]
+image::graphql-schema-example.png[]
 
 ==== Query
 
