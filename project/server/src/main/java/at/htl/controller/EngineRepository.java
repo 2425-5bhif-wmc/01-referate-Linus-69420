@@ -1,20 +1,9 @@
 package at.htl.controller;
 
 import at.htl.entity.Engine;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import java.util.ArrayList;
-import java.util.List;
 
 @ApplicationScoped
-public class EngineRepository {
-
-    private List<Engine> engines = new ArrayList<>();
-
-    public List<Engine> getAll() {
-        return engines;
-    }
-
-    public void add(Engine engine) {
-        engines.add(engine);
-    }
+public class EngineRepository implements PanacheRepository<Engine> {
 }

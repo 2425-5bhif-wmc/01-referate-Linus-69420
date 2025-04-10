@@ -714,4 +714,27 @@ query {
 
 == Beispiel Projekt
 
+In diesem Beispielprojekt wird eine einfache GraphQL-API für Autos und Motoren implementiert.
+
+
+=== Datenmodell
+
+image::images/uml[]
+
+=== Struktur
+
+----
+src/main/java/
+└── at/
+└── htl/
+├── boundary/
+│   └── CarGraphQLResource.java
+├── controller/
+│   ├── CarRepository.java
+│   └── EngineRepository.java
+└── entity/
+    ├── Car.java
+    └── Engine.java
+----
+
 == Fazit
