@@ -603,7 +603,14 @@ pre.rouge .gs {
 <li><a href="#_ergebnis">6.6. Ergebnis</a></li>
 </ul>
 </li>
-<li><a href="#_fazit">7. Fazit</a></li>
+<li><a href="#_fazit_zu_graphql">7. Fazit zu GraphQL</a>
+<ul class="sectlevel2">
+<li><a href="#_ist_graphql_ein_ersatz_für_rest">7.1. Ist GraphQL ein Ersatz für REST?</a></li>
+<li><a href="#_benutzerfreundlichkeit">7.2. Benutzerfreundlichkeit</a></li>
+<li><a href="#_performance">7.3. Performance</a></li>
+<li><a href="#_was_kann_graphql_nicht">7.4. Was kann GraphQL nicht?</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -782,7 +789,7 @@ Diese Anfrage wird an einen zentralen Endpunkt geschickt.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ganz ohne mehrere HTTP-Aufrufe.</p>
+<p>Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ohne mehrere HTTP-Aufrufe.</p>
 </div>
 <div class="paragraph">
 <p>Typisch für GraphQL:</p>
@@ -1174,7 +1181,7 @@ Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen d
   </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="n">Role</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="n">USER</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span><span class="c"># Query type</span><span class="w">
+</span><span class="c"># Query type also root type</span><span class="w">
 </span><span class="k">type</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">books</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Book</span><span class="p">!]!</span><span class="w">
   </span><span class="n">users</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">User</span><span class="p">!]!</span><span class="w">
@@ -1183,14 +1190,14 @@ Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen d
   </span><span class="n">me</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span><span class="c"># Mutation type</span><span class="w">
+</span><span class="c"># Mutation type also root type</span><span class="w">
 </span><span class="k">type</span><span class="w"> </span><span class="n">Mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">createBook</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="n">CreateBookInput</span><span class="p">!):</span><span class="w"> </span><span class="n">Book</span><span class="p">!</span><span class="w">
   </span><span class="n">createUser</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="n">CreateUserInput</span><span class="p">!):</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
   </span><span class="n">assignRole</span><span class="p">(</span><span class="n">userId</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!,</span><span class="w"> </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="n">Role</span><span class="p">!):</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span><span class="c"># Subscription type</span><span class="w">
+</span><span class="c"># Subscription type also root type</span><span class="w">
 </span><span class="k">type</span><span class="w"> </span><span class="n">Subscription</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">bookAdded</span><span class="p">:</span><span class="w"> </span><span class="n">Book</span><span class="p">!</span><span class="w">
   </span><span class="n">userSignedUp</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
@@ -1250,7 +1257,7 @@ Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen d
 <p>Dazu gehören Operationen wie Erstellen, Aktualisieren oder Löschen von Objekten.</p>
 </li>
 <li>
-<p>Mutationen ähneln vom Aufbau her Queries, haben jedoch in der Regel <strong>Nebeneffekte</strong> (z. B. Datenbankeinträge).</p>
+<p>Mutationen ähneln vom Aufbau her Queries, haben jedoch  <strong>Nebeneffekte</strong> (z. B. Datenbankeinträge).</p>
 </li>
 <li>
 <p>Mutationen im GraphQL-Schema beginnen beim <code>Mutation</code>-Typ.</p>
@@ -1260,7 +1267,9 @@ Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen d
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">createBook</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="s2">"Neu"</span><span class="p">,</span><span class="w"> </span><span class="n">authorId</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">createBook</span><span class="p">(</span><span class="w">
+        </span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="s2">"Neu"</span><span class="p">,</span><span class="w"> </span><span class="n">authorId</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c"># input, definiert im schema</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c"># return felder</span><span class="w">
     </span><span class="n">id</span><span class="w">
     </span><span class="n">title</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -1380,29 +1389,11 @@ Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen d
       <span class="k">return</span> <span class="nx">deleted</span><span class="p">;</span>
     <span class="p">},</span>
   <span class="p">},</span>
-  <span class="na">Book</span><span class="p">:</span> <span class="p">{</span>
+  <span class="na">Book</span><span class="p">:</span> <span class="p">{</span> <span class="c1">//resolve the author because book array only holds author.id</span>
     <span class="na">author</span><span class="p">:</span> <span class="p">(</span><span class="nx">book</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">authors</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="nx">author</span> <span class="o">=&gt;</span> <span class="nx">author</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">book</span><span class="p">.</span><span class="nx">authorId</span><span class="p">),</span>
   <span class="p">},</span>
 <span class="p">};</span></code></pre>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_argumente_der_resolver_funktion"><a class="anchor" href="#_argumente_der_resolver_funktion"></a>3.3.1. Argumente der Resolver-Funktion</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><code>parent</code> (auch <code>root</code> genannt): Das Ergebnis des übergeordneten Feldes</p>
-</li>
-<li>
-<p><code>args</code>: Die Argumente, die an das Feld übergeben wurden (z. B. <code>id</code>)</p>
-</li>
-<li>
-<p><code>context</code>: Gemeinsame Daten wie z. B. Authentifizierungsstatus, Datenbankverbindung</p>
-</li>
-<li>
-<p><code>info</code>: Informationen über die Ausführung der aktuellen Abfrage</p>
-</li>
-</ul>
 </div>
 <div class="paragraph">
 <p><strong>Beispiel für Verwendung:</strong></p>
@@ -1434,7 +1425,6 @@ Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen d
 </div>
 <div class="paragraph">
 <p>Mit Resolvern wird also die eigentliche Geschäftslogik angebunden – sie sind das Bindeglied zwischen dem deklarativen Schema und der realen Datenquelle (z. B. Datenbank, API).</p>
-</div>
 </div>
 </div>
 <div class="sect2">
@@ -1651,7 +1641,7 @@ GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwi
 <p><strong>Hierarchisch</strong>: Abfragen spiegeln die Objektbeziehungen wider – passend zur UI.</p>
 </li>
 <li>
-<p><strong>Unabhängig vom Speicher</strong>: GraphQL ist ein Protokoll, kein Datenbanksystem.</p>
+<p><strong>Unabhängig vom Speicher</strong>: GraphQL ist ein Protokoll, kein Datenbanksystem. (jedes Feld kann aus beliebigen Datenquellen stammen)</p>
 </li>
 <li>
 <p><strong>Introspektiv</strong>: Clients können das API-Schema selbst abfragen.</p>
@@ -1670,7 +1660,7 @@ GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwi
 <p>2012: News Feed wurde mit GraphQL nativ auf iOS und Android umgesetzt.</p>
 </li>
 <li>
-<p>Heute: GraphQL verarbeitet Milliarden von Anfragen täglich für hunderte App-Versionen.</p>
+<p>Heute: Milliarden von Anfragen täglich für hunderte App-Versionen.</p>
 </li>
 <li>
 <p>Entwicklertools wie GraphQL und Frameworks wie Relay wurden darauf aufgebaut.</p>
@@ -1841,7 +1831,7 @@ GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwi
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
+Es werden <strong>keine</strong> zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
 </td>
 </tr>
 </table>
@@ -2049,6 +2039,9 @@ Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um da
 <div class="paragraph">
 <p><a href="http://178.63.86.237:8081/q/graphql-ui">GraphQL UI</a></p>
 </div>
+<div class="paragraph">
+<p><a href="http://178.63.86.237:8081/graphql/schema.graphql">Schema einsehen</a></p>
+</div>
 <details>
 <summary class="title">Querys &amp; Mutationen</summary>
 <div class="content">
@@ -2138,15 +2131,93 @@ Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um da
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fazit"><a class="anchor" href="#_fazit"></a>7. Fazit</h2>
+<h2 id="_fazit_zu_graphql"><a class="anchor" href="#_fazit_zu_graphql"></a>7. Fazit zu GraphQL</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_ist_graphql_ein_ersatz_für_rest"><a class="anchor" href="#_ist_graphql_ein_ersatz_für_rest"></a>7.1. Ist GraphQL ein Ersatz für REST?</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Kann REST in vielen Bereichen ergänzen oder ersetzen, ist aber kein vollständiger Ersatz</p>
+</li>
+<li>
+<p>Besonders geeignet für komplexe, flexible Datenabfragen (z.B. Github)</p>
+</li>
+<li>
+<p>REST bleibt sinnvoll bei einfachen Szenarien</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_benutzerfreundlichkeit"><a class="anchor" href="#_benutzerfreundlichkeit"></a>7.2. Benutzerfreundlichkeit</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Einfache Nutzung für Clients nach kurzer Einarbeitung</p>
+</li>
+<li>
+<p>Klar strukturierte, flexible Queries erleichtern Entwicklung</p>
+</li>
+<li>
+<p>Serverseitig erfordert es eine gute Planung und Schema-Design</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance"><a class="anchor" href="#_performance"></a>7.3. Performance</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Vorteile durch gezielte Abfragen und weniger Datentransfer</p>
+</li>
+<li>
+<p>Kann bei schlechtem Schema-Design (z.B. N+1-Probleme) zu Performanceproblemen führen. N+1-Problem:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Server fragt alle Bücher ab: SELECT * FROM books
+→ z.B. 100 Bücher</p>
+</li>
+<li>
+<p>100x SELECT * FROM authors WHERE id = &#8230;&#8203;
+→ eine Anfrage pro Buch, um den Autor zu holen</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Lösungen wie DataLoader können Performance deutlich verbessern</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_was_kann_graphql_nicht"><a class="anchor" href="#_was_kann_graphql_nicht"></a>7.4. Was kann GraphQL nicht?</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Kein standardmäßiges Caching vorhanden</p>
+</li>
+<li>
+<p>Keine integrierte Lösung für Datei-Uploads</p>
+</li>
+<li>
+<p>Keine integrierte Echtzeitkommunikation (z.B. WebSockets notwendig)</p>
+</li>
+<li>
+<p>Komplexe Abfragen können Serverressourcen stark beanspruchen und erfordern passende Skalierungsstrategien</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 17:21:55 UTC
+Last updated 2025-04-10 19:20:31 UTC
 </div>
 </div>
 </body>

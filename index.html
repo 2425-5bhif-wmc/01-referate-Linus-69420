@@ -5,8 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="author" content="Linus Nestler">
 <link rel="icon" type="image/png" href="themes/favicon.png">
-<title>Index page</title>
+<title>GraphQL - A query language for your API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,6 +436,120 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
+<style>
     pre.rouge .hll {
         background-color: #ffc;
         display: block;
@@ -444,20 +559,1665 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     }
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>Index page</h1>
+<h1>GraphQL - A query language for your API</h1>
+<div class="details">
+<span id="author" class="author">Linus Nestler</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_was_ist_graphql">1. Was ist GraphQL</a>
+<ul class="sectlevel2">
+<li><a href="#_rest_vs_graphql">1.1. Rest vs. GraphQL</a></li>
+</ul>
+</li>
+<li><a href="#_welches_problem_löst_graphql">2. Welches Problem löst GraphQL?</a></li>
+<li><a href="#_wie_funktioniert_graphql">3. Wie funktioniert GraphQL?</a>
+<ul class="sectlevel2">
+<li><a href="#_grundprinzipien">3.1. Grundprinzipien</a></li>
+<li><a href="#_schemas_types">3.2. Schemas &amp; Types</a></li>
+<li><a href="#_resolver">3.3. Resolver</a></li>
+<li><a href="#_implementationen">3.4. Implementationen</a></li>
+</ul>
+</li>
+<li><a href="#_entwicklung_von_graphql">4. Entwicklung von GraphQL</a>
+<ul class="sectlevel2">
+<li><a href="#_api_timeline">4.1. API-Timeline</a></li>
+<li><a href="#_wieso_entstand_graphql">4.2. Wieso entstand GraphQL?</a></li>
+</ul>
+</li>
+<li><a href="#_wer_benutzt_graphql">5. Wer benutzt GraphQL?</a>
+<ul class="sectlevel2">
+<li><a href="#_github">5.1. GitHub</a></li>
+</ul>
+</li>
+<li><a href="#_beispiel_projekt">6. Beispiel Projekt</a>
+<ul class="sectlevel2">
+<li><a href="#_datenmodell">6.1. Datenmodell</a></li>
+<li><a href="#_struktur">6.2. Struktur</a></li>
+<li><a href="#_entitäten">6.3. Entitäten</a></li>
+<li><a href="#_repositories">6.4. Repositories</a></li>
+<li><a href="#_graphql_resource">6.5. GraphQL-Resource</a></li>
+<li><a href="#_ergebnis">6.6. Ergebnis</a></li>
+</ul>
+</li>
+<li><a href="#_fazit_zu_graphql">7. Fazit zu GraphQL</a>
+<ul class="sectlevel2">
+<li><a href="#_ist_graphql_ein_ersatz_für_rest">7.1. Ist GraphQL ein Ersatz für REST?</a></li>
+<li><a href="#_benutzerfreundlichkeit">7.2. Benutzerfreundlichkeit</a></li>
+<li><a href="#_performance">7.3. Performance</a></li>
+<li><a href="#_was_kann_graphql_nicht">7.4. Was kann GraphQL nicht?</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_was_ist_graphql"><a class="anchor" href="#_was_ist_graphql"></a>1. Was ist GraphQL</h2>
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>GraphQL is a <strong>query language</strong> for <strong>APIs</strong> and a <strong>runtime</strong> for fulfilling those queries with your existing data.
+GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for <strong>exactly what they need and nothing more</strong>, makes it easier to evolve APIs over time, and enables powerful developer tools."</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; graphql.org
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Query Language: Definiert, was abgefragt wird.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Standardisiertes Mittel, um Informationen aus einem System, z. B. einer Datenbank oder einer API, zu holen.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>API: Die Schnittstelle, die diese Abfragen ermöglicht.</p>
+</li>
+<li>
+<p>Runtime: Führt die Abfragen aus und liefert die Ergebnisse.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_rest_vs_graphql"><a class="anchor" href="#_rest_vs_graphql"></a>1.1. Rest vs. GraphQL</h3>
+<div class="paragraph">
+<p>GraphQL und REST verfolgen unterschiedliche Ansätze, wenn es um den Zugriff auf Daten geht.</p>
+</div>
+<div class="paragraph">
+<p>Während bei REST jede Datenressource über einen eigenen <strong>Endpunkt</strong> angesprochen werden muss, erlaubt GraphQL dem Client, alle benötigten Informationen in <strong>einer einzigen</strong> Abfrage zu definieren und gebündelt abzurufen.</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="images/img.png" alt="img">
+<img src="images/images/rest-vs-graphql.png" alt="rest vs graphql">
+</div>
+<div class="title">Figure 1. <a href="https://www.wallarm.com/what/graphql-vs-rest-all-that-you-must-know" class="bare">https://www.wallarm.com/what/graphql-vs-rest-all-that-you-must-know</a></div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>REST API – Der Client kommuniziert mit mehreren separaten Endpunkten, um Informationen zu erhalten.</p>
+</li>
+<li>
+<p>GraphQL API – Der Client sendet eine einzige Abfrage, die alle gewünschten Daten beinhaltet.
+Die GraphQL-Schicht übernimmt das Routing zu den jeweiligen Datenquellen im Hintergrund.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_rest"><a class="anchor" href="#_rest"></a>1.1.1. REST</h4>
+<div class="paragraph">
+<p>Was ist REST?</p>
+</div>
+<div class="paragraph">
+<p>REST steht für <strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer und ist ein Architekturstil für Web-APIs.
+Er basiert auf dem HTTP-Protokoll und nutzt dessen Methoden wie GET, POST, PUT und DELETE, um auf Daten zuzugreifen oder diese zu verändern.</p>
+</div>
+<div class="paragraph">
+<p>In einer REST-API ist jede Ressource (z.B. Menü, Preis oder Image) durch eine eindeutige URL (Endpunkt) identifizierbar.
+Die Kommunikation erfolgt über mehrere solcher Endpunkte, wobei jede Anfrage eine vordefinierte Antwortstruktur liefert.</p>
+</div>
+<div class="paragraph">
+<p><strong>Beispiel</strong>: Um Informationen über ein Menü und dessen Bilder zu erhalten, muss der Client zwei Requests senden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>/menu/123</p>
+</li>
+<li>
+<p>/menu/123/image</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nachteile:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mehrere Requests für zusammenhängende Daten</p>
+</li>
+<li>
+<p>Feste Antwortformate</p>
+</li>
+<li>
+<p>Oft unnötige oder unvollständige Daten (Over-/Underfetching)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Typisch für REST:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Feste Routen wie /users, /posts, /comments</p>
+</li>
+<li>
+<p>Eine Antwortstruktur pro Endpunkt</p>
+</li>
+<li>
+<p>Separate HTTP-Requests pro Datenobjekt</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/rest-hy.png" alt="rest hy">
+</div>
+<div class="title">Figure 2. <a href="https://hygraph.com/blog/graphql-vs-rest-apis" class="bare">https://hygraph.com/blog/graphql-vs-rest-apis</a></div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">// Request
+GET https://myrestapi.com/users/1
+
+// Response
+{
+    "_id": "1",
+    "name": "John Doe",
+    "username": "johndoe",
+    "email": "johndoe@gmail.com",
+    "currentJobTitle": "Software Engineer",
+    "phone": "9876543210",
+    "gender": "MALE",
+    "country": "Germany",
+    "display_picture": "8ba58af0-1212-4938-8b4a-t3m9c4371952",
+    "phone_verified": true,
+    "email_verified": true,
+    "_created_at": "2024-05-06T13:11:41Z",
+    "_updated_at": "2024-05-08T13:11:41Z",
+    "_deleted": false
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_graphql"><a class="anchor" href="#_graphql"></a>1.1.2. GraphQL</h4>
+<div class="paragraph">
+<p>GraphQL ist eine alternative API-Technologie, der Client formuliert eine einzige Abfrage, in der genau angegeben wird, welche Felder und Objekte benötigt werden.
+Diese Anfrage wird an einen zentralen Endpunkt geschickt.</p>
+</div>
+<div class="paragraph">
+<p>Im Hintergrund sorgt GraphQL dafür, dass alle relevanten Datenquellen kontaktiert und die Ergebnisse in einer einzigen, strukturierten Antwort zusammengeführt werden.</p>
+</div>
+<div class="paragraph">
+<p>Vorteile:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Nur ein Request nötig</p>
+</li>
+<li>
+<p>Flexible, client-gesteuerte Antwortstruktur</p>
+</li>
+<li>
+<p>Keine überflüssigen Daten</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ohne mehrere HTTP-Aufrufe.</p>
+</div>
+<div class="paragraph">
+<p>Typisch für GraphQL:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ein einziger Endpunkt (z. B. /graphql)</p>
+</li>
+<li>
+<p>Der Client bestimmt Struktur und Umfang der Antwort</p>
+</li>
+<li>
+<p>Kombinierte Daten aus mehreren Ressourcen in einer einzigen Antwort</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-hy.png" alt="graphql hy">
+</div>
+<div class="title">Figure 3. <a href="https://hygraph.com/blog/graphql-vs-rest-apis" class="bare">https://hygraph.com/blog/graphql-vs-rest-apis</a></div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">// Request
+POST https://mygraphqlapi.com/
+
+// Request Body
+query getAllUsers($userId: string){
+  userByUserId(userId:$userId){
+    name
+    email
+    currentJobTitle
+  }
+}
+
+// Response
+{
+    "name": "John Doe",
+    "email": "johndoe@gmail.com",
+    "currentJobTitle": "Software Engineer",
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_graphql_transport"><a class="anchor" href="#_graphql_transport"></a>1.1.3. GraphQL - Transport</h4>
+<div class="paragraph">
+<p>In Beispiel darüber wird GraphQL über HTTP angesprochen.
+Es ist jedoch nicht auf HTTP beschränkt.
+Da GraphQL kein Transportprotokoll ist, sondern ein Abfragesystem, kann es auch über andere Protokolle wie WebSocket oder gRPC verwendet werden.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+GraphQL definiert, <code>wie</code> man Daten abfragen oder manipulieren kann – <code>nicht</code>, wie diese Daten transportiert werden.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In der Praxis wird GraphQL meist über HTTP verwendet, zB.:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>POST /graphql – mit einer Query im Body</p>
+</li>
+<li>
+<p>GET /graphql?query={&#8230;&#8203;} – seltener, für einfache Lese-Requests</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Der Vorteil:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Bekannte HTTP-Mechanismen</p>
+</li>
+<li>
+<p>Authentifizierung</p>
+</li>
+<li>
+<p>Bestehende Infrastruktur nutzen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Alternative Transportprotokolle: (möglich, aber seltener) GraphQL kann theoretisch auch über andere Protokolle laufen, z.B.:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>WebSockets – z. B. für Subscriptions (live updates)</p>
+</li>
+<li>
+<p>MQTT / AMQP – in IoT- oder Messaging-Systemen</p>
+</li>
+<li>
+<p>gRPC – in performanteren Umgebungen</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-with-grpc-ws-http.png" alt="graphql with grpc ws http">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_welches_problem_löst_graphql"><a class="anchor" href="#_welches_problem_löst_graphql"></a>2. Welches Problem löst GraphQL?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bei klassischen REST-APIs stößt man in der Praxis schnell auf folgende Herausforderungen:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Problem</th>
+<th class="tableblock halign-left valign-top">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Overfetching</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Der Client erhält mehr Daten als benötigt, z.B. alle User-Felder, obwohl nur Name und E-Mail angezeigt werden sollen.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Underfetching</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Es werden mehrere Requests nötig, um zusammengehörige Daten zu laden, z.B. zuerst ein User, dann separat seine Posts.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Viele Endpunkte</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Für komplexe UIs müssen Daten aus verschiedenen Endpunkten zusammengeführt werden – das macht das Frontend komplexer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fehlende Flexibilität</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>REST-Endpunkte sind serverdefiniert – das Frontend muss sich anpassen.</p>
+</li>
+<li>
+<p>Mit <strong>GraphQL</strong> definiert das Frontend, welche Daten es braucht – unabhängig von serverseitigen Endpunkten.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Versionierung</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API-Änderungen führen oft zu neuen Versionen (z.B. <code>/v1</code>, <code>/v2</code>), was Wartung erschwert.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transparenz</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Bei REST muss man oft Dokus lesen oder Trial &amp; Error machen.</p>
+</li>
+<li>
+<p>➤ <strong>GraphQL ist introspektiv</strong>: Clients können das Schema abfragen und automatisch Dokumentation und Tooling generieren.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wie_funktioniert_graphql"><a class="anchor" href="#_wie_funktioniert_graphql"></a>3. Wie funktioniert GraphQL?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Idee: Der Client bestimmt, <strong>was</strong> er braucht – und der Server liefert <strong>genau das</strong>.</p>
+</div>
+<div class="sect2">
+<h3 id="_grundprinzipien"><a class="anchor" href="#_grundprinzipien"></a>3.1. Grundprinzipien</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-server-arch.png" alt="graphql server arch">
+</div>
+<div class="title">Figure 4. <a href="https://dineshigdd.medium.com/how-to-set-up-a-graphql-server-a-beginners-guide-to-graphql-fe1e7bb83ffc" class="bare">https://dineshigdd.medium.com/how-to-set-up-a-graphql-server-a-beginners-guide-to-graphql-fe1e7bb83ffc</a></div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request (oder operation)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Response</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="p">{</span><span class="w">
+  </span><span class="n">hero</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"hero"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R2-D2"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"appearsIn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"NEWHOPE"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"EMPIRE"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"JEDI"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">.....</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Der GraphQL-Server dient als mittlere Schicht zwischen Client und dem eigentlichen Backend.
+Er ist verantwortlich für die Verarbeitung der Anfragen und das Bereitstellen der Daten.</p>
+</div>
+<div class="paragraph">
+<p>Die wichtigsten Komponenten im Überblick:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Schema</strong>: Definiert alle verfügbaren Typen, Felder und Operationen (Queries, Mutations, Subscriptions) im System.</p>
+</li>
+<li>
+<p><strong>Query Language</strong>: Der Client formuliert seine Datenanfragen mit der deklarativen GraphQL-Abfragesprache.</p>
+</li>
+<li>
+<p><strong>Resolver</strong>: Serverseitige Funktionen, die einzelne Felder in einer Abfrage mit konkreten Daten füllen – z. B. aus einer Datenbank, einem Cache oder einer REST-API.</p>
+</li>
+<li>
+<p><strong>Response</strong>: Die Antwort des Servers spiegelt genau die Struktur der Anfrage wider – keine überflüssigen Daten, keine Überraschungen.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_schemas_types"><a class="anchor" href="#_schemas_types"></a>3.2. Schemas &amp; Types</h3>
+<div class="paragraph">
+<p>Ein GraphQL-Schema definiert die gesamte API-Struktur.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Welche Datenobjekte verfügbar sind (Object Types)</p>
+</li>
+<li>
+<p>Welche Felder diese besitzen (inkl. Typen und Argumenten)</p>
+</li>
+<li>
+<p>Welche Operationen erlaubt sind (Queries, Mutations, Subscriptions)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Beispiel für einen Typ in SDL (Schema Definition Language):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">type</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">email</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">posts</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Post</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Post</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">description</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">user</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>GraphQL definiert verschiedene Typen, die wir zum Aufbau eines Schemas verwenden können:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Scalar Type</p>
+</li>
+<li>
+<p>Object Type</p>
+</li>
+<li>
+<p>Input Types</p>
+</li>
+<li>
+<p>Enumeration Type</p>
+</li>
+<li>
+<p>Union and Interface Type</p>
+</li>
+<li>
+<p>Lists and Non-Null</p>
+</li>
+</ul>
+</div>
+<details>
+<summary class="title">Details</summary>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="c"># normal scalars are Int, Float, String, Boolean, ID (serialized as a String)</span><span class="w">
+</span><span class="c"># Custom scalar, to use Date it has to be implemented in the GraphQL-Server</span><span class="w">
+</span><span class="k">scalar</span><span class="w"> </span><span class="n">Date</span><span class="w">
+
+
+</span><span class="c"># Enum type</span><span class="w">
+</span><span class="k">enum</span><span class="w"> </span><span class="n">Role</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">ADMIN</span><span class="w">
+  </span><span class="n">USER</span><span class="w">
+  </span><span class="n">GUEST</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># Interface type</span><span class="w">
+</span><span class="k">interface</span><span class="w"> </span><span class="n">MediaItem</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># Object types</span><span class="w">
+</span><span class="k">type</span><span class="w"> </span><span class="n">Book</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">MediaItem</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">author</span><span class="p">:</span><span class="w"> </span><span class="n">Author</span><span class="p">!</span><span class="w">
+  </span><span class="n">published</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Movie</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">MediaItem</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">director</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">released</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Author</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">books</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Book</span><span class="p">!]!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">email</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="n">Role</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># Union type</span><span class="w">
+</span><span class="k">union</span><span class="w"> </span><span class="n">SearchResult</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Book</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="n">Author</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="n">Movie</span><span class="w">
+
+</span><span class="c"># Input types</span><span class="w">
+</span><span class="k">input</span><span class="w"> </span><span class="n">CreateBookInput</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">authorId</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">published</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">input</span><span class="w"> </span><span class="n">CreateUserInput</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">email</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="n">Role</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="n">USER</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># Query type also root type</span><span class="w">
+</span><span class="k">type</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">books</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Book</span><span class="p">!]!</span><span class="w">
+  </span><span class="n">users</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">User</span><span class="p">!]!</span><span class="w">
+  </span><span class="n">authors</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Author</span><span class="p">!]!</span><span class="w">
+  </span><span class="n">search</span><span class="p">(</span><span class="n">keyword</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!):</span><span class="w"> </span><span class="p">[</span><span class="n">SearchResult</span><span class="p">!]!</span><span class="w">
+  </span><span class="n">me</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># Mutation type also root type</span><span class="w">
+</span><span class="k">type</span><span class="w"> </span><span class="n">Mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">createBook</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="n">CreateBookInput</span><span class="p">!):</span><span class="w"> </span><span class="n">Book</span><span class="p">!</span><span class="w">
+  </span><span class="n">createUser</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="n">CreateUserInput</span><span class="p">!):</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
+  </span><span class="n">assignRole</span><span class="p">(</span><span class="n">userId</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!,</span><span class="w"> </span><span class="n">role</span><span class="p">:</span><span class="w"> </span><span class="n">Role</span><span class="p">!):</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># Subscription type also root type</span><span class="w">
+</span><span class="k">type</span><span class="w"> </span><span class="n">Subscription</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">bookAdded</span><span class="p">:</span><span class="w"> </span><span class="n">Book</span><span class="p">!</span><span class="w">
+  </span><span class="n">userSignedUp</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-schema-example." alt="graphql schema example">
+</div>
+<div class="title">Figure 5. <a href="https://tailcall.run/blog/graphql-schema/" class="bare">https://tailcall.run/blog/graphql-schema/</a></div>
+</div>
+<div class="sect3">
+<h4 id="_query"><a class="anchor" href="#_query"></a>3.2.1. Query</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Query</strong> ist einer der drei speziellen Einstiegspunkte (Root-Typen) in einem GraphQL-Schema.</p>
+</li>
+<li>
+<p>Er wird verwendet, um <strong>Daten vom Server zu lesen</strong>.</p>
+</li>
+<li>
+<p>Jede Query startet beim <code>Query</code>-Typ, der als Ausgangspunkt für Abfragen dient.</p>
+</li>
+<li>
+<p>Clients definieren in der Abfrage exakt, welche Felder (und verschachtelten Felder) sie benötigen.</p>
+</li>
+<li>
+<p>Beispiel:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">books</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">title</span><span class="w">
+    </span><span class="n">author</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">name</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mutation"><a class="anchor" href="#_mutation"></a>3.2.2. Mutation</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Mutation</strong> ist ein weiterer Root-Typ im Schema und wird verwendet, um <strong>Daten zu verändern</strong>.</p>
+</li>
+<li>
+<p>Dazu gehören Operationen wie Erstellen, Aktualisieren oder Löschen von Objekten.</p>
+</li>
+<li>
+<p>Mutationen ähneln vom Aufbau her Queries, haben jedoch  <strong>Nebeneffekte</strong> (z. B. Datenbankeinträge).</p>
+</li>
+<li>
+<p>Mutationen im GraphQL-Schema beginnen beim <code>Mutation</code>-Typ.</p>
+</li>
+<li>
+<p>Beispiel:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">createBook</span><span class="p">(</span><span class="w">
+        </span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="s2">"Neu"</span><span class="p">,</span><span class="w"> </span><span class="n">authorId</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c"># input, definiert im schema</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c"># return felder</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">title</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_subscription"><a class="anchor" href="#_subscription"></a>3.2.3. Subscription</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Subscription</strong> ist der dritte Root-Typ und dient der <strong>Echtzeitkommunikation</strong>.</p>
+</li>
+<li>
+<p>Damit können Clients eine dauerhafte Verbindung zum Server (z. B. über WebSockets) aufbauen.</p>
+</li>
+<li>
+<p>Der Server sendet <strong>Live-Updates</strong> an alle verbundenen Clients, wenn bestimmte Ereignisse eintreten (z. B. ein neues Objekt wird erstellt).</p>
+</li>
+<li>
+<p>Abfragen starten beim <code>Subscription</code>-Typ.</p>
+</li>
+<li>
+<p>Beispiel:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">subscription</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">bookAdded</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">title</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resolver"><a class="anchor" href="#_resolver"></a>3.3. Resolver</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/resolvers.png" alt="resolvers">
+</div>
+<div class="title">Figure 6. <a href="https://docs.aws.amazon.com/appsync/latest/devguide/resolver-components.html" class="bare">https://docs.aws.amazon.com/appsync/latest/devguide/resolver-components.html</a></div>
+</div>
+<div class="paragraph">
+<p><strong>Resolver</strong> sind Funktionen im Server-Code, die bestimmen, <strong>wie und woher die Daten in einer GraphQL-Abfrage tatsächlich geholt oder verändert werden</strong>. Während das Schema definiert, <strong>was</strong> möglich ist, liefern Resolver die <strong>Logik</strong>, um das umzusetzen.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Jeder Feldname im GraphQL-Schema benötigt eine zugehörige Resolver-Funktion, außer er kann automatisch auf ein gleichnamiges Feld im Datenobjekt gemappt werden.</p>
+</li>
+<li>
+<p>Resolver erhalten die Argumente aus der Query oder Mutation und haben Zugriff auf den Kontext (z. B. Authentifizierungsinformationen).</p>
+</li>
+<li>
+<p>Besonders bei Mutationen (z. B. <code>createBook</code>, <code>deleteBook</code>) implementieren Resolver die tatsächlichen Schreiboperationen (z. B. Datenbankzugriffe).</p>
+</li>
+<li>
+<p>Bei Abfragen (Queries) holen Resolver die angeforderten Daten aus Datenquellen wie Datenbanken, APIs oder internen Diensten.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Beispiel für einen Resolver in JavaScript (z. B. mit Apollo Server):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">type</span><span class="w"> </span><span class="n">Book</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">author</span><span class="p">:</span><span class="w"> </span><span class="n">Author</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Author</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">books</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Book</span><span class="p">!]!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">deleteBook</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!):</span><span class="w"> </span><span class="n">Book</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="javascript"><span class="kd">const</span> <span class="nx">books</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1</span><span class="dl">'</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GraphQL Basics</span><span class="dl">'</span><span class="p">,</span> <span class="na">authorId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a1</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2</span><span class="dl">'</span><span class="p">,</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Advanced GraphQL</span><span class="dl">'</span><span class="p">,</span> <span class="na">authorId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a2</span><span class="dl">'</span> <span class="p">},</span>
+<span class="p">];</span>
+
+<span class="kd">const</span> <span class="nx">authors</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a1</span><span class="dl">'</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Alice</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a2</span><span class="dl">'</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bob</span><span class="dl">'</span> <span class="p">},</span>
+<span class="p">];</span>
+
+<span class="kd">const</span> <span class="nx">resolvers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">Query</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">books</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">books</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">Mutation</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">deleteBook</span><span class="p">:</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="p">{</span> <span class="nx">id</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">books</span><span class="p">.</span><span class="nf">findIndex</span><span class="p">(</span><span class="nx">book</span> <span class="o">=&gt;</span> <span class="nx">book</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">id</span><span class="p">);</span>
+      <span class="k">if </span><span class="p">(</span><span class="nx">index</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="kd">const</span> <span class="p">[</span><span class="nx">deleted</span><span class="p">]</span> <span class="o">=</span> <span class="nx">books</span><span class="p">.</span><span class="nf">splice</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">deleted</span><span class="p">;</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="na">Book</span><span class="p">:</span> <span class="p">{</span> <span class="c1">//resolve the author because book array only holds author.id</span>
+    <span class="na">author</span><span class="p">:</span> <span class="p">(</span><span class="nx">book</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">authors</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="nx">author</span> <span class="o">=&gt;</span> <span class="nx">author</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">book</span><span class="p">.</span><span class="nx">authorId</span><span class="p">),</span>
+  <span class="p">},</span>
+<span class="p">};</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Beispiel für Verwendung:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">deleteBook</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">title</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Erwartete Antwort:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"deleteBook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GraphQL Basics"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Mit Resolvern wird also die eigentliche Geschäftslogik angebunden – sie sind das Bindeglied zwischen dem deklarativen Schema und der realen Datenquelle (z. B. Datenbank, API).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implementationen"><a class="anchor" href="#_implementationen"></a>3.4. Implementationen</h3>
+<div class="paragraph">
+<p>GraphQL kann mit verschiedenen Programmiersprachen und Frameworks implementiert werden. Die konkrete Ausführung – also wie Abfragen verarbeitet, Resolver ausgeführt und Datenquellen angebunden werden – übernimmt jeweils eine Library oder ein Framework. Je nach Sprache unterscheiden sich Aufbau und Syntax, das Grundprinzip bleibt jedoch identisch.</p>
+</div>
+<div class="sect3">
+<h4 id="_beliebte_implementationen_auswahl"><a class="anchor" href="#_beliebte_implementationen_auswahl"></a>3.4.1. Beliebte Implementationen (Auswahl)</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Apollo Server</strong> (JavaScript/Node.js)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Weit verbreitet, besonders für Web- und Fullstack-Entwicklung.</p>
+</li>
+<li>
+<p>Unterstützt einfache Resolverstruktur, Middleware (z. B. Authentifizierung) und Subscriptions.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>GraphQL Java</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Robuste Low-Level-Implementierung für Java.</p>
+</li>
+<li>
+<p>Wird oft in Spring Boot-Projekten verwendet.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>SmallRye GraphQL</strong> (MicroProfile / Jakarta EE)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Integration in das MicroProfile-Ökosystem (Quarkus, Payara, WildFly etc.).</p>
+</li>
+<li>
+<p>Nutzt Annotationen zur Definition von Schema und Resolvern.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>HotChocolate</strong> (.NET)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Moderne und flexible GraphQL-Bibliothek für .NET Core.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>graphql-go</strong> (Go)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Leichtgewichtige, native Implementierung für Go-Projekte.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_fokus_smallrye_graphql"><a class="anchor" href="#_fokus_smallrye_graphql"></a>3.4.2. Fokus: SmallRye GraphQL</h4>
+<div class="paragraph">
+<p>SmallRye GraphQL ist eine Spezialisierung für Java-Anwendungen im MicroProfile-Umfeld. Es basiert auf <code>GraphQL Java</code> und erlaubt es, ein Schema per <strong>Annotationen</strong> direkt auf Java-Klassen zu definieren.</p>
+</div>
+<div class="paragraph">
+<p>Beispiel für eine einfache Abfrage:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@GraphQLApi</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookService</span> <span class="o">{</span>
+
+    <span class="c1">// Resolver für: query { books { title author } }</span>
+    <span class="nd">@Query</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Book</span><span class="o">&gt;</span> <span class="nf">books</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Resolver für: mutation { addBook(title: "...", author: "...") { title } }</span>
+    <span class="nd">@Mutation</span>
+    <span class="kd">public</span> <span class="nc">Book</span> <span class="nf">addBook</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">author</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Book</span> <span class="n">book</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Book</span><span class="o">(</span><span class="n">title</span><span class="o">,</span> <span class="n">author</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">book</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Die zugehörige Java-Klasse:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">title</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">author</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Book</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nc">String</span> <span class="n">author</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">author</span> <span class="o">=</span> <span class="n">author</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Besonderheiten von SmallRye GraphQL:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Annotationen wie <code>@Query</code>, <code>@Mutation</code>, <code>@Subscription</code> machen separate SDL-Dateien überflüssig.</p>
+</li>
+<li>
+<p>Integrierbar in Java-Frameworks wie <strong>Quarkus</strong>, <strong>Payara</strong>, <strong>WildFly</strong>.</p>
+</li>
+<li>
+<p>Automatische Schema-Generierung aus Java-Klassen.</p>
+</li>
+<li>
+<p>Integration in REST-APIs über CDI (Context and Dependency Injection) und JAX-RS möglich.</p>
+</li>
+<li>
+<p>GraphQL UI (Explorer) oft standardmäßig verfügbar unter <code>/graphql-ui</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Resolver-Funktionen in SmallRye GraphQL werden automatisch aus annotierten Methoden erzeugt.
+Du brauchst keine separate Resolver-Map oder Schema-Dateien. Die Magie passiert durch Annotationen und Reflektion im Hintergrund.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In z.B. Apollo müssen die resolver selbst geschrieben werden. (siehe 3.3)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_entwicklung_von_graphql"><a class="anchor" href="#_entwicklung_von_graphql"></a>4. Entwicklung von GraphQL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Über die Jahre sind viele API-Standards entstanden, die alle ihre Vor- und Nachteile haben.
+GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwickelt wurde und <code>2015 als Open Source </code>veröffentlicht wurde.</p>
+</div>
+<div class="sect2">
+<h3 id="_api_timeline"><a class="anchor" href="#_api_timeline"></a>4.1. API-Timeline</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/timeline.png" alt="timeline">
+</div>
+<div class="title">Figure 7. <a href="https://www.altexsoft.com/blog/soap-vs-rest-vs-graphql-vs-rpc/" class="bare">https://www.altexsoft.com/blog/soap-vs-rest-vs-graphql-vs-rpc/</a></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wieso_entstand_graphql"><a class="anchor" href="#_wieso_entstand_graphql"></a>4.2. Wieso entstand GraphQL?</h3>
+<div class="paragraph">
+<p>GraphQL wurde 2012 bei Facebook entwickelt, um die Herausforderungen beim Datenabruf in mobilen Apps zu lösen. Insbesondere bei der Umstellung von Web-Wrappern hin zu nativen mobilen Anwendungen stieß Facebook an Grenzen mit bestehenden API-Ansätzen wie REST.</p>
+</div>
+<div class="paragraph">
+<p>Facebook apps waren ursprünglich Web-Wrapper ("write once, run anywhere"), die auf mobile Geräte portiert wurden. Was bei der steigenden komplexität zu schlechter Performance und Nutzererfahrung führte.</p>
+</div>
+<div class="sect3">
+<h4 id="_probleme_mit_klassischen_apis"><a class="anchor" href="#_probleme_mit_klassischen_apis"></a>4.2.1. Probleme mit klassischen APIs</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>REST führte zu Overfetching/Underfetching und vielen Round-Trips.</p>
+</li>
+<li>
+<p>HTML-basierte Inhalte (z.B. der News Feed) waren schwer für mobile Apps nutzbar.</p>
+</li>
+<li>
+<p>Entwickler wollten APIs näher an der Modellstruktur der App.</p>
+</li>
+<li>
+<p>Komplexe Datenstrukturen erforderten aufwändige Server- und Client-Logik.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_die_lösung_graphql"><a class="anchor" href="#_die_lösung_graphql"></a>4.2.2. Die Lösung: GraphQL</h4>
+<div class="paragraph">
+<p>GraphQL wurde als neue Datenabfragesprache entwickelt, die sich an den Bedürfnissen von Produktdesignern und Entwicklern orientiert. Die wichtigsten Eigenschaften:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Client-zentriert</strong>: Die App bestimmt die Struktur der Daten durch eine Abfrage.</p>
+</li>
+<li>
+<p><strong>Hierarchisch</strong>: Abfragen spiegeln die Objektbeziehungen wider – passend zur UI.</p>
+</li>
+<li>
+<p><strong>Unabhängig vom Speicher</strong>: GraphQL ist ein Protokoll, kein Datenbanksystem. (jedes Feld kann aus beliebigen Datenquellen stammen)</p>
+</li>
+<li>
+<p><strong>Introspektiv</strong>: Clients können das API-Schema selbst abfragen.</p>
+</li>
+<li>
+<p><strong>Versionsfrei</strong>: Neue Felder können hinzugefügt werden, ohne alte Clients zu brechen.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_erfolge_bei_facebook"><a class="anchor" href="#_erfolge_bei_facebook"></a>4.2.3. Erfolge bei Facebook</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>2012: News Feed wurde mit GraphQL nativ auf iOS und Android umgesetzt.</p>
+</li>
+<li>
+<p>Heute: Milliarden von Anfragen täglich für hunderte App-Versionen.</p>
+</li>
+<li>
+<p>Entwicklertools wie GraphQL und Frameworks wie Relay wurden darauf aufgebaut.</p>
+</li>
+<li>
+<p>Eine (Js)Referenz-Implementierung und die Spezifikation wurden open-sourced, um eine Community aufzubauen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Spezifikation: <a href="https://spec.graphql.org/June2023/">GraphQL Specification</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wer_benutzt_graphql"><a class="anchor" href="#_wer_benutzt_graphql"></a>5. Wer benutzt GraphQL?</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/images/graphql-users.png" alt="graphql users">
+</div>
+<div class="title">Figure 8. <a href="https://graphql.org/" class="bare">https://graphql.org/</a></div>
+</div>
+<div class="sect2">
+<h3 id="_github"><a class="anchor" href="#_github"></a>5.1. GitHub</h3>
+<div class="sect4">
+<h5 id="_was_github_mit_graphql_macht"><a class="anchor" href="#_was_github_mit_graphql_macht"></a>Was GitHub mit GraphQL macht:</h5>
+<div class="paragraph">
+<p>Seit 2016 bietet GitHub eine offizielle GraphQL API v4 an.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Sie wurde entwickelt, um komplexe und flexible Datenabfragen zu ermöglichen.</p>
+</li>
+<li>
+<p>Viele interne Tools und neuere Features (z. B. GitHub Projects, Actions, Insights) nutzen intern GraphQL.</p>
+</li>
+<li>
+<p>Entwickler können mit einer einzigen Abfrage z. B. Repositories, Issues, Pull Requests und Commits abfragen – was mit REST mehrere Aufrufe bräuchte.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_aber_die_rest_api_v3_bleibt_bestehen"><a class="anchor" href="#_aber_die_rest_api_v3_bleibt_bestehen"></a>Aber: Die REST API (v3) bleibt bestehen.</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>GitHub betreibt beide APIs parallel, um Abwärtskompatibilität zu wahren.</p>
+</li>
+<li>
+<p>Für einfache Anwendungsfälle oder Skripte ist REST oft schneller umzusetzen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>GitHub hat GraphQL eingeführt, um REST zu ergänzen, nicht zu ersetzen. Die GraphQL API ist die empfohlene Wahl für neue, komplexe Anwendungen, während REST weiterhin für einfache oder etablierte Workflows genutzt werden kann.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.github.com/de/graphql/overview/explorer">GitHub GraphQL Explorer</a></p>
+</div>
+<details>
+<summary class="title">Example</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">get all repositories with some details</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">viewer</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">repositories</span><span class="p">(</span><span class="n">first</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">orderBy</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="n">field</span><span class="p">:</span><span class="w"> </span><span class="n">NAME</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">:</span><span class="w"> </span><span class="n">ASC</span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">nodes</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">name</span><span class="w">
+        </span><span class="n">description</span><span class="w">
+        </span><span class="n">url</span><span class="w">
+        </span><span class="n">isPrivate</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">recent pull requests</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">viewer</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">pullRequests</span><span class="p">(</span><span class="n">first</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">orderBy</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="n">field</span><span class="p">:</span><span class="w"> </span><span class="n">CREATED_AT</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">:</span><span class="w"> </span><span class="n">DESC</span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">nodes</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">title</span><span class="w">
+        </span><span class="n">url</span><span class="w">
+        </span><span class="n">createdAt</span><span class="w">
+        </span><span class="n">state</span><span class="w">
+        </span><span class="n">repository</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="n">nameWithOwner</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">introspection (Selbstbeobachtung)</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">__schema</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">types</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">name</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_beispiel_projekt"><a class="anchor" href="#_beispiel_projekt"></a>6. Beispiel Projekt</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In diesem Beispielprojekt wird eine einfache GraphQL-API für Autos und Motoren implementiert. Die Anwendung basiert auf <code>Quarkus</code>, verwendet<code> Hibernate ORM </code>für die Datenbankanbindung und <code>SmallRye GraphQL</code> zur Bereitstellung der GraphQL-Schnittstelle.</p>
+</div>
+<div class="sect2">
+<h3 id="_datenmodell"><a class="anchor" href="#_datenmodell"></a>6.1. Datenmodell</h3>
+<div class="paragraph">
+<p>Das Datenmodell besteht aus den Entitäten <code>Car</code>, <code>Engine</code> und einem Enum <code>FuelType</code>, welches den Motortyp beschreibt (z. B. PETROL, DIESEL, ELECTRIC etc.).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/uml" alt="uml">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_struktur"><a class="anchor" href="#_struktur"></a>6.2. Struktur</h3>
+<div class="listingblock">
+<div class="content">
+<pre>src/main/java/
+└── at/
+    └── htl/
+        ├── boundary/
+        │   └── CarGraphQLResource.java
+        ├── controller/
+        │   ├── CarRepository.java
+        │   └── EngineRepository.java
+        └── entity/
+            ├── Car.java
+            ├── FuelType.java
+            └── Engine.java</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_entitäten"><a class="anchor" href="#_entitäten"></a>6.3. Entitäten</h3>
+<div class="paragraph">
+<p>Die Entitäten Car, Engine und FuelType sind wie bei einer Standard JPA-Anwendung definiert. Sie sind mit <code>@Entity</code> annotiert und repräsentieren die Datenbanktabellen.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Es werden <strong>keine</strong> zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
+</td>
+</tr>
+</table>
+</div>
+<details>
+<summary class="title">Entitäten</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Car.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">model</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">year</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">color</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">;</span>
+    <span class="nd">@OneToOne</span><span class="o">(</span><span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">String</span> <span class="n">brand</span><span class="o">,</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">,</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">brand</span> <span class="o">=</span> <span class="n">brand</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">year</span> <span class="o">=</span> <span class="n">year</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="n">color</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">vin</span> <span class="o">=</span> <span class="n">vin</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="o">...</span> <span class="c1">//Getter Setter</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Engine.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Engine</span><span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">power</span><span class="o">;</span> <span class="c1">// in HP</span>
+    <span class="kd">public</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">cylinders</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">;</span> <span class="c1">// in liters</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">turbocharged</span><span class="o">;</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Engine</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="kd">public</span> <span class="nf">Engine</span><span class="o">(</span> <span class="kt">int</span> <span class="n">power</span><span class="o">,</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cylinders</span><span class="o">,</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">turbocharged</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">power</span> <span class="o">=</span> <span class="n">power</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fuelType</span> <span class="o">=</span> <span class="n">fuelType</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">cylinders</span> <span class="o">=</span> <span class="n">cylinders</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">displacement</span> <span class="o">=</span> <span class="n">displacement</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">turbocharged</span> <span class="o">=</span> <span class="n">turbocharged</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="o">...</span> <span class="c1">//Getter Setter</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">FuelType.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.entity</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">enum</span> <span class="nc">FuelType</span> <span class="o">{</span>
+    <span class="no">PETROL</span><span class="o">,</span>
+    <span class="no">DIESEL</span><span class="o">,</span>
+    <span class="no">ELECTRIC</span><span class="o">,</span>
+    <span class="no">HYBRID</span><span class="o">,</span>
+    <span class="no">LPG</span><span class="o">,</span>
+    <span class="no">HYDROGEN</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_repositories"><a class="anchor" href="#_repositories"></a>6.4. Repositories</h3>
+<div class="paragraph">
+<p>Standard-Implementierung mit PanacheRepository.</p>
+</div>
+<details>
+<summary class="title">Repositories</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">CarRepository.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">at.htl.entity.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.quarkus.hibernate.orm.panache.PanacheRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarRepository</span> <span class="kd">implements</span> <span class="nc">PanacheRepository</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">EngineRepository.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">at.htl.entity.Engine</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.quarkus.hibernate.orm.panache.PanacheRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EngineRepository</span> <span class="kd">implements</span> <span class="nc">PanacheRepository</span><span class="o">&lt;</span><span class="nc">Engine</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_graphql_resource"><a class="anchor" href="#_graphql_resource"></a>6.5. GraphQL-Resource</h3>
+<div class="paragraph">
+<p>Die GraphQL-Resource stellt die Schnittstelle nach außen dar. Die Klasse ist mit <code>@GraphQLApi</code> annotiert, wodurch ihre Methoden als GraphQL-Operationen verfügbar gemacht werden. Sie bietet Queries und Mutationen zum Lesen, Hinzufügen, Aktualisieren und Löschen von Autos.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@GraphQLApi</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarGraphQLResource</span> <span class="o">{</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nc">CarRepository</span> <span class="n">carRepository</span><span class="o">;</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nc">EngineRepository</span> <span class="n">engineRepository</span><span class="o">;</span>
+
+    <span class="nd">@Query</span><span class="o">(</span><span class="s">"cars"</span><span class="o">)</span> <i class="conum" data-value="4"></i><b>(4)</b>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">getCars</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">carRepository</span><span class="o">.</span><span class="na">listAll</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Mutation</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="nd">@Transactional</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">addCar</span><span class="o">(</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"brand"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">,</span>     <i class="conum" data-value="4"></i><b>(4)</b>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"model"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"year"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"color"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"vin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"engine"</span><span class="o">)</span> <span class="nc">Engine</span> <span class="n">engine</span>
+    <span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Add and return car</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Mutation</span> <i class="conum" data-value="5"></i><b>(5)</b>
+    <span class="nd">@Transactional</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">updateCar</span><span class="o">(</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span>             <i class="conum" data-value="4"></i><b>(4)</b>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"brand"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"model"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"year"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"color"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"vin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">vin</span>
+    <span class="o">)</span> <span class="o">{</span>
+       <span class="c1">// Update and return car</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Mutation</span> <i class="conum" data-value="5"></i><b>(5)</b>
+    <span class="nd">@Transactional</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">deleteCar</span><span class="o">(</span><span class="nd">@Name</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span> <i class="conum" data-value="4"></i><b>(4)</b>
+        <span class="c1">//Delete car and return true/false</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>@GraphQLApi</code>: Markiert die Klasse als GraphQL-Endpunkt. Alle öffentlichen Methoden können damit als GraphQL-Operationen verwendet werden.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>@Query</code>: Kennzeichnet eine Methode als GraphQL-Query (Lesefunktion).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>@Transactional</code>: Stellt sicher, dass Datenbankoperationen innerhalb einer Transaktion ausgeführt werden.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>@Name(&#8230;&#8203;)</code>: Gibt den Namen des Arguments in der GraphQL-API explizit an.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td><code>@Mutation</code>: Markiert eine Methode als Mutation – also Schreiboperation wie Hinzufügen, Aktualisieren oder Löschen.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ergebnis"><a class="anchor" href="#_ergebnis"></a>6.6. Ergebnis</h3>
+<div class="paragraph">
+<p><a href="http://178.63.86.237:8081/q/graphql-ui">GraphQL UI</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://178.63.86.237:8081/graphql/schema.graphql">Schema einsehen</a></p>
+</div>
+<details>
+<summary class="title">Querys &amp; Mutationen</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">cars</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">cars</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">brand</span><span class="w">
+    </span><span class="n">model</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="w">
+    </span><span class="n">color</span><span class="w">
+    </span><span class="n">vin</span><span class="w">
+    </span><span class="n">engine</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">id</span><span class="w">
+      </span><span class="n">power</span><span class="w">
+      </span><span class="n">fuelType</span><span class="w">
+      </span><span class="n">cylinders</span><span class="w">
+      </span><span class="n">displacement</span><span class="w">
+      </span><span class="n">turbocharged</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">addcar</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">addCar</span><span class="p">(</span><span class="w">
+    </span><span class="n">brand</span><span class="p">:</span><span class="w"> </span><span class="s2">"Renault"</span><span class="w">
+    </span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="s2">"Laguna"</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="p">:</span><span class="w"> </span><span class="mi">2011</span><span class="w">
+    </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dark Blue"</span><span class="w">
+    </span><span class="n">vin</span><span class="p">:</span><span class="w"> </span><span class="s2">"VF1KG0E0641234567"</span><span class="w">
+    </span><span class="n">engine</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">power</span><span class="p">:</span><span class="w"> </span><span class="mi">130</span><span class="w">
+      </span><span class="n">fuelType</span><span class="p">:</span><span class="w"> </span><span class="n">DIESEL</span><span class="w">
+      </span><span class="n">cylinders</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+      </span><span class="n">displacement</span><span class="p">:</span><span class="w"> </span><span class="mf">1.9</span><span class="w">
+      </span><span class="n">turbocharged</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">brand</span><span class="w">
+    </span><span class="n">model</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">update</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">updateCar</span><span class="p">(</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="n">brand</span><span class="p">:</span><span class="w"> </span><span class="s2">"Renault"</span><span class="w">
+    </span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="s2">"Laguna GT"</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="p">:</span><span class="w"> </span><span class="mi">2012</span><span class="w">
+    </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="s2">"Midnight Blue"</span><span class="w">
+    </span><span class="n">vin</span><span class="p">:</span><span class="w"> </span><span class="s2">"VF1KG0E0649999999"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">brand</span><span class="w">
+    </span><span class="n">model</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="w">
+    </span><span class="n">color</span><span class="w">
+    </span><span class="n">vin</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">delete</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">deleteCar</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fazit_zu_graphql"><a class="anchor" href="#_fazit_zu_graphql"></a>7. Fazit zu GraphQL</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ist_graphql_ein_ersatz_für_rest"><a class="anchor" href="#_ist_graphql_ein_ersatz_für_rest"></a>7.1. Ist GraphQL ein Ersatz für REST?</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Kann REST in vielen Bereichen ergänzen oder ersetzen, ist aber kein vollständiger Ersatz</p>
+</li>
+<li>
+<p>Besonders geeignet für komplexe, flexible Datenabfragen (z.B. Github)</p>
+</li>
+<li>
+<p>REST bleibt sinnvoll bei einfachen Szenarien</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_benutzerfreundlichkeit"><a class="anchor" href="#_benutzerfreundlichkeit"></a>7.2. Benutzerfreundlichkeit</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Einfache Nutzung für Clients nach kurzer Einarbeitung</p>
+</li>
+<li>
+<p>Klar strukturierte, flexible Queries erleichtern Entwicklung</p>
+</li>
+<li>
+<p>Serverseitig erfordert es eine gute Planung und Schema-Design</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance"><a class="anchor" href="#_performance"></a>7.3. Performance</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Vorteile durch gezielte Abfragen und weniger Datentransfer</p>
+</li>
+<li>
+<p>Kann bei schlechtem Schema-Design (z.B. N+1-Probleme) zu Performanceproblemen führen. N+1-Problem:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Server fragt alle Bücher ab: SELECT * FROM books
+→ z.B. 100 Bücher</p>
+</li>
+<li>
+<p>100x SELECT * FROM authors WHERE id = &#8230;&#8203;
+→ eine Anfrage pro Buch, um den Autor zu holen</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Lösungen wie DataLoader können Performance deutlich verbessern</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_was_kann_graphql_nicht"><a class="anchor" href="#_was_kann_graphql_nicht"></a>7.4. Was kann GraphQL nicht?</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Kein standardmäßiges Caching vorhanden</p>
+</li>
+<li>
+<p>Keine integrierte Lösung für Datei-Uploads</p>
+</li>
+<li>
+<p>Keine integrierte Echtzeitkommunikation (z.B. WebSockets notwendig)</p>
+</li>
+<li>
+<p>Komplexe Abfragen können Serverressourcen stark beanspruchen und erfordern passende Skalierungsstrategien</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 17:21:55 UTC
+Last updated 2025-04-10 19:20:31 UTC
 </div>
 </div>
 </body>
