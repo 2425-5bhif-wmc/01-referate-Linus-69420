@@ -1,4 +1,4 @@
-package at.htl;
+package at.htl.boundary;
 
 import org.eclipse.microprofile.graphql.DefaultValue;
 import org.eclipse.microprofile.graphql.Description;
