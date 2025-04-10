@@ -2046,7 +2046,94 @@ Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um da
 </div>
 <div class="sect2">
 <h3 id="_ergebnis"><a class="anchor" href="#_ergebnis"></a>6.6. Ergebnis</h3>
-
+<div class="paragraph">
+<p><a href="http://178.63.86.237:8081/q/graphql-ui">GraphQL UI</a></p>
+</div>
+<details>
+<summary class="title">Querys &amp; Mutationen</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">cars</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">cars</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">brand</span><span class="w">
+    </span><span class="n">model</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="w">
+    </span><span class="n">color</span><span class="w">
+    </span><span class="n">vin</span><span class="w">
+    </span><span class="n">engine</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">id</span><span class="w">
+      </span><span class="n">power</span><span class="w">
+      </span><span class="n">fuelType</span><span class="w">
+      </span><span class="n">cylinders</span><span class="w">
+      </span><span class="n">displacement</span><span class="w">
+      </span><span class="n">turbocharged</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">addcar</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">addCar</span><span class="p">(</span><span class="w">
+    </span><span class="n">brand</span><span class="p">:</span><span class="w"> </span><span class="s2">"Renault"</span><span class="w">
+    </span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="s2">"Laguna"</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="p">:</span><span class="w"> </span><span class="mi">2011</span><span class="w">
+    </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dark Blue"</span><span class="w">
+    </span><span class="n">vin</span><span class="p">:</span><span class="w"> </span><span class="s2">"VF1KG0E0641234567"</span><span class="w">
+    </span><span class="n">engine</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">power</span><span class="p">:</span><span class="w"> </span><span class="mi">130</span><span class="w">
+      </span><span class="n">fuelType</span><span class="p">:</span><span class="w"> </span><span class="n">DIESEL</span><span class="w">
+      </span><span class="n">cylinders</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+      </span><span class="n">displacement</span><span class="p">:</span><span class="w"> </span><span class="mf">1.9</span><span class="w">
+      </span><span class="n">turbocharged</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">brand</span><span class="w">
+    </span><span class="n">model</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">update</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">updateCar</span><span class="p">(</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="n">brand</span><span class="p">:</span><span class="w"> </span><span class="s2">"Renault"</span><span class="w">
+    </span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="s2">"Laguna GT"</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="p">:</span><span class="w"> </span><span class="mi">2012</span><span class="w">
+    </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="s2">"Midnight Blue"</span><span class="w">
+    </span><span class="n">vin</span><span class="p">:</span><span class="w"> </span><span class="s2">"VF1KG0E0649999999"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">brand</span><span class="w">
+    </span><span class="n">model</span><span class="w">
+    </span><span class="n">manufactureYear</span><span class="w">
+    </span><span class="n">color</span><span class="w">
+    </span><span class="n">vin</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">delete</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="graphql"><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">deleteCar</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+</div>
+</div>
+</details>
 </div>
 </div>
 </div>
@@ -2059,7 +2146,7 @@ Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um da
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 15:44:20 UTC
+Last updated 2025-04-10 17:21:55 UTC
 </div>
 </div>
 </body>
