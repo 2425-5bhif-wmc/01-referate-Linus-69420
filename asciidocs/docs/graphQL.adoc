@@ -98,7 +98,7 @@ Vorteile:
 * Flexible, client-gesteuerte Antwortstruktur
 * Keine überflüssigen Daten
 
-Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ganz ohne mehrere HTTP-Aufrufe.
+Beispiel: Mit einer einzigen Abfrage können Benutzerinformationen und zugehörige Beiträge geladen werden – ohne mehrere HTTP-Aufrufe.
 
 Typisch für GraphQL:
 
@@ -339,7 +339,7 @@ input CreateUserInput {
   role: Role = USER
 }
 
-# Query type
+# Query type also root type
 type Query {
   books: [Book!]!
   users: [User!]!
@@ -348,14 +348,14 @@ type Query {
   me: User
 }
 
-# Mutation type
+# Mutation type also root type
 type Mutation {
   createBook(input: CreateBookInput!): Book!
   createUser(input: CreateUserInput!): User!
   assignRole(userId: ID!, role: Role!): User!
 }
 
-# Subscription type
+# Subscription type also root type
 type Subscription {
   bookAdded: Book!
   userSignedUp: User!
@@ -390,14 +390,16 @@ query {
 
 * *Mutation* ist ein weiterer Root-Typ im Schema und wird verwendet, um *Daten zu verändern*.
 * Dazu gehören Operationen wie Erstellen, Aktualisieren oder Löschen von Objekten.
-* Mutationen ähneln vom Aufbau her Queries, haben jedoch in der Regel *Nebeneffekte* (z. B. Datenbankeinträge).
+* Mutationen ähneln vom Aufbau her Queries, haben jedoch  *Nebeneffekte* (z. B. Datenbankeinträge).
 * Mutationen im GraphQL-Schema beginnen beim `Mutation`-Typ.
 * Beispiel:
 +
 [source,graphql]
 ----
 mutation {
-  createBook(input: { title: "Neu", authorId: "1" }) {
+  createBook(
+        input: { title: "Neu", authorId: "1" } # input, definiert im schema
+    ) { # return felder
     id
     title
   }
@@ -482,18 +484,11 @@ const resolvers = {
       return deleted;
     },
   },
-  Book: {
+  Book: { //resolve the author because book array only holds author.id
     author: (book) => authors.find(author => author.id === book.authorId),
   },
 };
 ----
-
-==== Argumente der Resolver-Funktion
-
-* `parent` (auch `root` genannt): Das Ergebnis des übergeordneten Feldes
-* `args`: Die Argumente, die an das Feld übergeben wurden (z. B. `id`)
-* `context`: Gemeinsame Daten wie z. B. Authentifizierungsstatus, Datenbankverbindung
-* `info`: Informationen über die Ausführung der aktuellen Abfrage
 
 *Beispiel für Verwendung:*
 [source,graphql]
@@ -622,13 +617,13 @@ GraphQL wurde als neue Datenabfragesprache entwickelt, die sich an den Bedürfni
 
 * **Client-zentriert**: Die App bestimmt die Struktur der Daten durch eine Abfrage.
 * **Hierarchisch**: Abfragen spiegeln die Objektbeziehungen wider – passend zur UI.
-* **Unabhängig vom Speicher**: GraphQL ist ein Protokoll, kein Datenbanksystem.
+* **Unabhängig vom Speicher**: GraphQL ist ein Protokoll, kein Datenbanksystem. (jedes Feld kann aus beliebigen Datenquellen stammen)
 * **Introspektiv**: Clients können das API-Schema selbst abfragen.
 * **Versionsfrei**: Neue Felder können hinzugefügt werden, ohne alte Clients zu brechen.
 
 ==== Erfolge bei Facebook
 * 2012: News Feed wurde mit GraphQL nativ auf iOS und Android umgesetzt.
-* Heute: GraphQL verarbeitet Milliarden von Anfragen täglich für hunderte App-Versionen.
+* Heute: Milliarden von Anfragen täglich für hunderte App-Versionen.
 * Entwicklertools wie GraphQL und Frameworks wie Relay wurden darauf aufgebaut.
 * Eine (Js)Referenz-Implementierung und die Spezifikation wurden open-sourced, um eine Community aufzubauen.
 
@@ -743,7 +738,7 @@ src/main/java/
 
 Die Entitäten Car, Engine und FuelType sind wie bei einer Standard JPA-Anwendung definiert. Sie sind mit `@Entity` annotiert und repräsentieren die Datenbanktabellen.
 
-IMPORTANT: Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
+IMPORTANT: Es werden *keine* zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
 
 .Entitäten
 [%collapsible]
@@ -922,6 +917,8 @@ public class CarGraphQLResource {
 
 http://178.63.86.237:8081/q/graphql-ui[GraphQL UI]
 
+http://178.63.86.237:8081/graphql/schema.graphql[Schema einsehen]
+
 .Querys & Mutationen
 [%collapsible]
 ====
@@ -1007,4 +1004,33 @@ mutation {
 
 ====
 
-== Fazit
+== Fazit zu GraphQL
+
+=== Ist GraphQL ein Ersatz für REST?
+
+* Kann REST in vielen Bereichen ergänzen oder ersetzen, ist aber kein vollständiger Ersatz
+* Besonders geeignet für komplexe, flexible Datenabfragen (z.B. Github)
+* REST bleibt sinnvoll bei einfachen Szenarien
+
+=== Benutzerfreundlichkeit
+
+* Einfache Nutzung für Clients nach kurzer Einarbeitung
+* Klar strukturierte, flexible Queries erleichtern Entwicklung
+* Serverseitig erfordert es eine gute Planung und Schema-Design
+
+=== Performance
+
+* Vorteile durch gezielte Abfragen und weniger Datentransfer
+* Kann bei schlechtem Schema-Design (z.B. N+1-Probleme) zu Performanceproblemen führen. N+1-Problem:
+** Server fragt alle Bücher ab: SELECT * FROM books
+→ z.B. 100 Bücher
+** 100x SELECT * FROM authors WHERE id = ...
+→ eine Anfrage pro Buch, um den Autor zu holen
+* Lösungen wie DataLoader können Performance deutlich verbessern
+
+=== Was kann GraphQL nicht?
+
+* Kein standardmäßiges Caching vorhanden
+* Keine integrierte Lösung für Datei-Uploads
+* Keine integrierte Echtzeitkommunikation (z.B. WebSockets notwendig)
+* Komplexe Abfragen können Serverressourcen stark beanspruchen und erfordern passende Skalierungsstrategien
