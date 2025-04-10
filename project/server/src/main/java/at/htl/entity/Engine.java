@@ -7,11 +7,16 @@ import jakarta.persistence.*;
 public class Engine{
 
     public int power; // in HP
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private FuelType fuelType;    public int cylinders;
-    public double displacement; // in liters
+    private FuelType fuelType;
+
+    public int cylinders;
+
+    public double displacement;
     public boolean turbocharged;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

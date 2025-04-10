@@ -33,13 +33,15 @@ public class CarGraphQLResource {
     public Car addCar(
             @Name("brand") String brand,
             @Name("model") String model,
-            @Name("year") int year,
+            @Name("manufactureYear") int manufactureYear,
             @Name("color") String color,
             @Name("vin") String vin,
             @Name("engine") Engine engine
     ) {
+
         engineRepository.persist(engine);
-        Car car = new Car(brand, model, year, color, vin, engine);
+
+        Car car = new Car(brand, model, manufactureYear, color, vin, engine);
         carRepository.persist(car);
         return car;
     }
@@ -50,7 +52,7 @@ public class CarGraphQLResource {
             @Name("id") Long id,
             @Name("brand") String brand,
             @Name("model") String model,
-            @Name("year") int year,
+            @Name("manufactureYear") int manufactureYear,
             @Name("color") String color,
             @Name("vin") String vin
     ) {
@@ -61,7 +63,7 @@ public class CarGraphQLResource {
 
         car.setBrand(brand);
         car.setModel(model);
-        car.setManufactureYear(year);
+        car.setManufactureYear(manufactureYear);
         car.setColor(color);
         car.setVin(vin);
 
