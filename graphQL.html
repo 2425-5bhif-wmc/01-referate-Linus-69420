@@ -593,7 +593,16 @@ pre.rouge .gs {
 <li><a href="#_github">5.1. GitHub</a></li>
 </ul>
 </li>
-<li><a href="#_beispiel_projekt">6. Beispiel Projekt</a></li>
+<li><a href="#_beispiel_projekt">6. Beispiel Projekt</a>
+<ul class="sectlevel2">
+<li><a href="#_datenmodell">6.1. Datenmodell</a></li>
+<li><a href="#_struktur">6.2. Struktur</a></li>
+<li><a href="#_entitäten">6.3. Entitäten</a></li>
+<li><a href="#_repositories">6.4. Repositories</a></li>
+<li><a href="#_graphql_resource">6.5. GraphQL-Resource</a></li>
+<li><a href="#_ergebnis">6.6. Ergebnis</a></li>
+</ul>
+</li>
 <li><a href="#_fazit">7. Fazit</a></li>
 </ul>
 </div>
@@ -1787,7 +1796,258 @@ GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwi
 <div class="sect1">
 <h2 id="_beispiel_projekt"><a class="anchor" href="#_beispiel_projekt"></a>6. Beispiel Projekt</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>In diesem Beispielprojekt wird eine einfache GraphQL-API für Autos und Motoren implementiert. Die Anwendung basiert auf <code>Quarkus</code>, verwendet<code> Hibernate ORM </code>für die Datenbankanbindung und <code>SmallRye GraphQL</code> zur Bereitstellung der GraphQL-Schnittstelle.</p>
+</div>
+<div class="sect2">
+<h3 id="_datenmodell"><a class="anchor" href="#_datenmodell"></a>6.1. Datenmodell</h3>
+<div class="paragraph">
+<p>Das Datenmodell besteht aus den Entitäten <code>Car</code>, <code>Engine</code> und einem Enum <code>FuelType</code>, welches den Motortyp beschreibt (z. B. PETROL, DIESEL, ELECTRIC etc.).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/images/uml" alt="uml">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_struktur"><a class="anchor" href="#_struktur"></a>6.2. Struktur</h3>
+<div class="listingblock">
+<div class="content">
+<pre>src/main/java/
+└── at/
+    └── htl/
+        ├── boundary/
+        │   └── CarGraphQLResource.java
+        ├── controller/
+        │   ├── CarRepository.java
+        │   └── EngineRepository.java
+        └── entity/
+            ├── Car.java
+            ├── FuelType.java
+            └── Engine.java</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_entitäten"><a class="anchor" href="#_entitäten"></a>6.3. Entitäten</h3>
+<div class="paragraph">
+<p>Die Entitäten Car, Engine und FuelType sind wie bei einer Standard JPA-Anwendung definiert. Sie sind mit <code>@Entity</code> annotiert und repräsentieren die Datenbanktabellen.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Es werden keine zusätzlichen Annotationen für SmallRye GraphQL benötigt um das GraphQL schema zu generieren. Passiert onehin automatisch.
+</td>
+</tr>
+</table>
+</div>
+<details>
+<summary class="title">Entitäten</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Car.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">model</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">year</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">color</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">;</span>
+    <span class="nd">@OneToOne</span><span class="o">(</span><span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">String</span> <span class="n">brand</span><span class="o">,</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">,</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">brand</span> <span class="o">=</span> <span class="n">brand</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">year</span> <span class="o">=</span> <span class="n">year</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="n">color</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">vin</span> <span class="o">=</span> <span class="n">vin</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="o">...</span> <span class="c1">//Getter Setter</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Engine.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Engine</span><span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">power</span><span class="o">;</span> <span class="c1">// in HP</span>
+    <span class="kd">public</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">cylinders</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">;</span> <span class="c1">// in liters</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">turbocharged</span><span class="o">;</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Engine</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="kd">public</span> <span class="nf">Engine</span><span class="o">(</span> <span class="kt">int</span> <span class="n">power</span><span class="o">,</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cylinders</span><span class="o">,</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">turbocharged</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">power</span> <span class="o">=</span> <span class="n">power</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fuelType</span> <span class="o">=</span> <span class="n">fuelType</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">cylinders</span> <span class="o">=</span> <span class="n">cylinders</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">displacement</span> <span class="o">=</span> <span class="n">displacement</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">turbocharged</span> <span class="o">=</span> <span class="n">turbocharged</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="o">...</span> <span class="c1">//Getter Setter</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">FuelType.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.entity</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">enum</span> <span class="nc">FuelType</span> <span class="o">{</span>
+    <span class="no">PETROL</span><span class="o">,</span>
+    <span class="no">DIESEL</span><span class="o">,</span>
+    <span class="no">ELECTRIC</span><span class="o">,</span>
+    <span class="no">HYBRID</span><span class="o">,</span>
+    <span class="no">LPG</span><span class="o">,</span>
+    <span class="no">HYDROGEN</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_repositories"><a class="anchor" href="#_repositories"></a>6.4. Repositories</h3>
+<div class="paragraph">
+<p>Standard-Implementierung mit PanacheRepository.</p>
+</div>
+<details>
+<summary class="title">Repositories</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">CarRepository.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">at.htl.entity.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.quarkus.hibernate.orm.panache.PanacheRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarRepository</span> <span class="kd">implements</span> <span class="nc">PanacheRepository</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">EngineRepository.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">at.htl.entity.Engine</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.quarkus.hibernate.orm.panache.PanacheRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EngineRepository</span> <span class="kd">implements</span> <span class="nc">PanacheRepository</span><span class="o">&lt;</span><span class="nc">Engine</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_graphql_resource"><a class="anchor" href="#_graphql_resource"></a>6.5. GraphQL-Resource</h3>
+<div class="paragraph">
+<p>Die GraphQL-Resource stellt die Schnittstelle nach außen dar. Die Klasse ist mit <code>@GraphQLApi</code> annotiert, wodurch ihre Methoden als GraphQL-Operationen verfügbar gemacht werden. Sie bietet Queries und Mutationen zum Lesen, Hinzufügen, Aktualisieren und Löschen von Autos.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@GraphQLApi</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarGraphQLResource</span> <span class="o">{</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nc">CarRepository</span> <span class="n">carRepository</span><span class="o">;</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nc">EngineRepository</span> <span class="n">engineRepository</span><span class="o">;</span>
+
+    <span class="nd">@Query</span><span class="o">(</span><span class="s">"cars"</span><span class="o">)</span> <i class="conum" data-value="4"></i><b>(4)</b>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">getCars</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">carRepository</span><span class="o">.</span><span class="na">listAll</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Mutation</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="nd">@Transactional</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">addCar</span><span class="o">(</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"brand"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">,</span>     <i class="conum" data-value="4"></i><b>(4)</b>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"model"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"year"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"color"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"vin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"engine"</span><span class="o">)</span> <span class="nc">Engine</span> <span class="n">engine</span>
+    <span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Add and return car</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Mutation</span> <i class="conum" data-value="5"></i><b>(5)</b>
+    <span class="nd">@Transactional</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">updateCar</span><span class="o">(</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span>             <i class="conum" data-value="4"></i><b>(4)</b>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"brand"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"model"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"year"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"color"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span>
+            <span class="nd">@Name</span><span class="o">(</span><span class="s">"vin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">vin</span>
+    <span class="o">)</span> <span class="o">{</span>
+       <span class="c1">// Update and return car</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Mutation</span> <i class="conum" data-value="5"></i><b>(5)</b>
+    <span class="nd">@Transactional</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">deleteCar</span><span class="o">(</span><span class="nd">@Name</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span> <i class="conum" data-value="4"></i><b>(4)</b>
+        <span class="c1">//Delete car and return true/false</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>@GraphQLApi</code>: Markiert die Klasse als GraphQL-Endpunkt. Alle öffentlichen Methoden können damit als GraphQL-Operationen verwendet werden.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>@Query</code>: Kennzeichnet eine Methode als GraphQL-Query (Lesefunktion).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>@Transactional</code>: Stellt sicher, dass Datenbankoperationen innerhalb einer Transaktion ausgeführt werden.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>@Name(&#8230;&#8203;)</code>: Gibt den Namen des Arguments in der GraphQL-API explizit an.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td><code>@Mutation</code>: Markiert eine Methode als Mutation – also Schreiboperation wie Hinzufügen, Aktualisieren oder Löschen.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ergebnis"><a class="anchor" href="#_ergebnis"></a>6.6. Ergebnis</h3>
+
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1799,7 +2059,7 @@ GraphQL ist ein relativ neuer Standard, der <code>2012 von Facebook</code> entwi
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 13:22:31 UTC
+Last updated 2025-04-10 15:44:20 UTC
 </div>
 </div>
 </body>
