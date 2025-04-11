@@ -1846,25 +1846,15 @@ Es werden <strong>keine</strong> zusätzlichen Annotationen für SmallRye GraphQ
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="nc">String</span> <span class="n">brand</span><span class="o">;</span>
     <span class="kd">public</span> <span class="nc">String</span> <span class="n">model</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="n">year</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">manufactureYear</span><span class="o">;</span>
     <span class="kd">public</span> <span class="nc">String</span> <span class="n">color</span><span class="o">;</span>
     <span class="kd">public</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">;</span>
-    <span class="nd">@OneToOne</span><span class="o">(</span><span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="nd">@ManyToOne</span>
+    <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"engine_id"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">;</span>
     <span class="nd">@Id</span>
     <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
     <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span> <span class="o">{}</span>
-
-    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">String</span> <span class="n">brand</span><span class="o">,</span> <span class="nc">String</span> <span class="n">model</span><span class="o">,</span> <span class="kt">int</span> <span class="n">year</span><span class="o">,</span> <span class="nc">String</span> <span class="n">color</span><span class="o">,</span> <span class="nc">String</span> <span class="n">vin</span><span class="o">,</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">brand</span> <span class="o">=</span> <span class="n">brand</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">year</span> <span class="o">=</span> <span class="n">year</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">color</span> <span class="o">=</span> <span class="n">color</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">vin</span> <span class="o">=</span> <span class="n">vin</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="o">;</span>
-    <span class="o">}</span>
     <span class="o">...</span> <span class="c1">//Getter Setter</span>
 <span class="o">}</span></code></pre>
 </div>
@@ -1876,24 +1866,19 @@ Es werden <strong>keine</strong> zusätzlichen Annotationen für SmallRye GraphQ
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Engine</span><span class="o">{</span>
 
     <span class="kd">public</span> <span class="kt">int</span> <span class="n">power</span><span class="o">;</span> <span class="c1">// in HP</span>
-    <span class="kd">public</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">;</span>
+
+    <span class="nd">@Enumerated</span><span class="o">(</span><span class="nc">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">;</span>
+
     <span class="kd">public</span> <span class="kt">int</span> <span class="n">cylinders</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">;</span> <span class="c1">// in liters</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">;</span>
     <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">turbocharged</span><span class="o">;</span>
+
     <span class="nd">@Id</span>
     <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">Engine</span><span class="o">()</span> <span class="o">{}</span>
-
-    <span class="kd">public</span> <span class="nf">Engine</span><span class="o">(</span> <span class="kt">int</span> <span class="n">power</span><span class="o">,</span> <span class="nc">FuelType</span> <span class="n">fuelType</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cylinders</span><span class="o">,</span> <span class="kt">double</span> <span class="n">displacement</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">turbocharged</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">power</span> <span class="o">=</span> <span class="n">power</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">fuelType</span> <span class="o">=</span> <span class="n">fuelType</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">cylinders</span> <span class="o">=</span> <span class="n">cylinders</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">displacement</span> <span class="o">=</span> <span class="n">displacement</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">turbocharged</span> <span class="o">=</span> <span class="n">turbocharged</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="o">...</span> <span class="c1">//Getter Setter</span></code></pre>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>    <span class="o">...</span> <span class="c1">//Getter Setter</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2217,7 +2202,7 @@ Es werden <strong>keine</strong> zusätzlichen Annotationen für SmallRye GraphQ
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 20:35:33 UTC
+Last updated 2025-04-11 06:03:51 UTC
 </div>
 </div>
 </body>
