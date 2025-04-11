@@ -819,13 +819,11 @@ Diese Anfrage wird an einen zentralen Endpunkt geschickt.</p>
 POST https://mygraphqlapi.com/
 
 // Request Body
-query getAllUsers($userId: string){
-  userByUserId(userId:$userId){
+query getByUserId(userId:$userId){
     name
     email
     currentJobTitle
   }
-}
 
 // Response
 {
@@ -2202,7 +2200,7 @@ Es werden <strong>keine</strong> zusätzlichen Annotationen für SmallRye GraphQ
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-11 06:03:51 UTC
+Last updated 2025-04-11 06:36:28 UTC
 </div>
 </div>
 </body>
