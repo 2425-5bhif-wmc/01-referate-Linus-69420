@@ -116,13 +116,11 @@ image::graphql-hy.png[]
 POST https://mygraphqlapi.com/
 
 // Request Body
-query getAllUsers($userId: string){
-  userByUserId(userId:$userId){
+query getByUserId(userId:$userId){
     name
     email
     currentJobTitle
   }
-}
 
 // Response
 {
